@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<h1>메인화면</h1>
+	<!-- <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1> -->
+	<p>
+		<a th:href="@{/login}">로그인</a>
+		<a th:href="@{/join}">회원가입</a>
+	</p>
+	<ul>
+		<li><a href="#">캠핑장 소개</a></li>
+		<li><a href="#">리뷰 게시판</a></li>
+		<li><a href="#">마이 페이지</a></li>
+	</ul>
+</body>
+
+</html>
