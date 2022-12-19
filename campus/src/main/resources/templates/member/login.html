@@ -10,19 +10,27 @@
 
 <body>
   <h1>로그인</h1>
-  <form th:action="@{/login}" method="post">
+  <form th:action="@{/member/login}" method="post">
+    <div th:if="${param.error}">
+      <div>
+        ID 또는 비밀번호를 확인해 주세요.
+      </div>
+    </div>
+    
     <div>
       아이디 :
-      <input type="text">
+      <input type="text" name="memberId">
     </div>
     <div>
       비밀번호 :
-      <input type="password">
+      <input type="password" name="memberPw">
     </div>
+	<p th:if="${loginErrorMsg}" th:text="${loginErrorMsg}"></p>
     <input type="submit" value="로그인">
+    <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
   </form>
+  <input type="button" th:onclick="|location.href='@{/member/join}'|" value="회원가입">
 
-  <input type="button" value="회원가입">
 </body>
 
 </html>

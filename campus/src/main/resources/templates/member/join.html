@@ -12,18 +12,19 @@
 <body>
 
   <h1>회원가입</h1>
-  <form th:action="@{/join}" th:object="${member}" method="post">
+  <form th:action="@{/member/join}" th:object="${memberDto}" method="post">
+    <p th:if="${error}" th:text="${error}"></p>
     <div>
       권한 :
       사용자
-      <input type="radio" th:field="*{memberRole}" value="user" checked>
+      <input type="radio" name="memberRole" value="user" checked>
       관리자
-      <input type="radio" th:field="*{memberRole}" value="admin">
+      <input type="radio" name="memberRole" value="admin">
     </div>
     <div>
       아이디 :
       <input type="text" th:field="*{memberId}">
-      <p th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"></p>
+	  <p th:errors="*{memberId}">Incorrect date</p>
     </div>
     <div>
       비밀번호 :

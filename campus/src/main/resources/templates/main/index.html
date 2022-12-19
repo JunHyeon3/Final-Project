@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 	<meta charset="UTF-8">
@@ -8,11 +9,9 @@
 
 <body>
 	<h1>메인화면</h1>
-	<!-- <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1> -->
-	<p>
-		<a th:href="@{/login}">로그인</a>
-		<a th:href="@{/join}">회원가입</a>
-	</p>
+	<a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a>
+	<a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
+	<a th:href="@{/member/join}">회원가입</a>
 	<ul>
 		<li><a href="#">캠핑장 소개</a></li>
 		<li><a href="#">리뷰 게시판</a></li>
