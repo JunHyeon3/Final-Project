@@ -9,13 +9,18 @@
 
 <body>
 	<h1>메인화면</h1>
-	<a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a>
-	<a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a>
-	<a th:href="@{/member/join}">회원가입</a>
 	<ul>
-		<li><a href="#">캠핑장 소개</a></li>
-		<li><a href="#">리뷰 게시판</a></li>
-		<li><a href="#">마이 페이지</a></li>
+		<li><a th:href="@{#}">캠핑장 소개</a></li>
+        <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+            <a th:href="@{/admin/campsite/new}">캠핑장 등록</a>
+        </li>
+		<li><a th:href="@{#}">리뷰 게시판</a></li>
+		<li><a th:href="@{#}">마이페이지</a></li>
+	</ul>
+	<ul>
+		<li><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></li>
+		<li><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
+		<li><a th:href="@{/member/join}">회원가입</a></li>
 	</ul>
 </body>
 

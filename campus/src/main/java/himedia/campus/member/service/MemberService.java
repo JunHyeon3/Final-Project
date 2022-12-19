@@ -2,6 +2,7 @@ package himedia.campus.member.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -24,17 +25,23 @@ public class MemberService implements UserDetailsService{
 
 	private final MemberRepository memberRepository;
 	
-    private void checkDuplication(Member member) {
-        Member findMember = memberRepository.findByMemberId(member.getMemberId());
-        if(findMember != null){
-            throw new IllegalStateException("이미 등록된 회원입니다.");
-        }
-    }
 	
 	@Transactional
 	public Long saveMember(Member member) {
 		checkDuplication(member);
 		return memberRepository.save(member).getMemberNo();
+	}
+	
+	public Optional<Member> findMember(Long memberNo) {
+		memberRepository.findByMemberNo(memberNo);
+		return null;
+	}
+	
+	private void checkDuplication(Member member) {
+		Member findMember = memberRepository.findByMemberId(member.getMemberId());
+		if(findMember != null){
+			throw new IllegalStateException("이미 등록된 회원입니다.");
+		}
 	}
 
 	@Override
