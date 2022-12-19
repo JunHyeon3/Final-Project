@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>캠핑장 등록</h1>
+  <form th:action="@{/admin/campsite/new}" th:object="${campsiteDto}" th:method="post">
+    <div>
+      캠핑장 이름
+      <input type="text" th:field="*{campsiteName}">
+    </div>
+    <div>
+      소개글
+      <textarea th:field="*{campsiteIntroduction}" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      주소
+      <input type="text" th:field="*{campsiteAddress}">
+    </div>
+    <div>
+      전화번호
+      <input type="text" th:field="*{campsiteTel}">
+    </div>
+
+    <div>
+      이용요금
+      <input type="number" th:field="*{campsitePrice}">원
+    </div>
+    <div>
+      최소 인원
+      <input type="number" th:field="*{campsiteMin}">
+    </div>
+    <div>
+      최대 인원
+      <input type="number" th:field="*{campsiteMax}">
+    </div>
+    <div>
+      입실 시간
+      <input type="number" th:field="*{campsiteCheckin}">
+    </div>
+    <div>
+      퇴실 시간
+      <input type="number" th:field="*{campsiteCheckout}">
+    </div>
+
+    <div>
+      환경
+      <input type="checkbox" name="environment" value="산">
+      <label >산</label>
+      <input type="checkbox" name="environment" value="숲">
+      <label >숲</label>
+      <input type="checkbox" name="environment" value="강">
+      <label >강</label>
+    </div>
+    <div>
+      편의시설
+      <input type="checkbox" name="facilitie" value="편의1">
+      <label >편의1</label>
+      <input type="checkbox" name="facilitie" value="편의2">
+      <label >편의2</label>
+      <input type="checkbox" name="facilitie" value="편의3">
+      <label >편의3</label>
+    </div>
+    <div>
+      테마
+      <input type="checkbox" name="theme" value="테마1">
+      <label >테마1</label>
+      <input type="checkbox" name="theme" value="테마2">
+      <label >테마2</label>
+      <input type="checkbox" name="theme" value="테마3">
+      <label >테마3</label>
+    </div>
+
+    <div>
+      이미지 추가
+      <input type="file">
+    </div>
+    <input type="submit" value="등록하기">
+  </form>
+</body>
+</html>
