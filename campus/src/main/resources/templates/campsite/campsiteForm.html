@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>캠핑장 등록</h1>
-  <form th:action="@{/admin/campsite/new}" th:object="${campsiteDto}" th:method="post">
+  <form th:action="@{/admin/campsite/new}" th:object="${campsiteDto}" th:method="post" enctype="multipart/form-data">
     <div>
       캠핑장 이름
       <input type="text" th:field="*{campsiteName}">
@@ -49,36 +49,42 @@
 
     <div>
       환경
-      <input type="checkbox" name="environment" value="산">
+      <input type="checkbox" name="campsiteEnvironment" value="산">
       <label >산</label>
-      <input type="checkbox" name="environment" value="숲">
+      <input type="checkbox" name="campsiteEnvironment" value="숲">
       <label >숲</label>
-      <input type="checkbox" name="environment" value="강">
+      <input type="checkbox" name="campsiteEnvironment" value="강">
       <label >강</label>
     </div>
     <div>
       편의시설
-      <input type="checkbox" name="facilitie" value="편의1">
+      <input type="checkbox" name="campsiteFacilitie" value="편의1">
       <label >편의1</label>
-      <input type="checkbox" name="facilitie" value="편의2">
+      <input type="checkbox" name="campsiteFacilitie" value="편의2">
       <label >편의2</label>
-      <input type="checkbox" name="facilitie" value="편의3">
+      <input type="checkbox" name="campsiteFacilitie" value="편의3">
       <label >편의3</label>
     </div>
     <div>
       테마
-      <input type="checkbox" name="theme" value="테마1">
+      <input type="checkbox" name="campsiteTheme" value="테마1">
       <label >테마1</label>
-      <input type="checkbox" name="theme" value="테마2">
+      <input type="checkbox" name="campsiteTheme" value="테마2">
       <label >테마2</label>
-      <input type="checkbox" name="theme" value="테마3">
+      <input type="checkbox" name="campsiteTheme" value="테마3">
       <label >테마3</label>
     </div>
 
     <div>
-      이미지 추가
-      <input type="file">
+      이미지 <br>
+      <label >대표 이미지1</label>
+      <input type="file" name= "campsiteImgFiles"> <br>
+      <label >소개 이미지1</label>
+      <input type="file" name= "campsiteImgFiles">
+      <label >소개 이미지2</label>
+      <input type="file" name= "campsiteImgFiles">
     </div>
+    
     <input type="submit" value="등록하기">
   </form>
 </body>

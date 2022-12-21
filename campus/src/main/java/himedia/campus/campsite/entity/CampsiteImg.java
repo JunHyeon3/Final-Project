@@ -17,6 +17,7 @@ public class CampsiteImg {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long campsiteImgId;
+	private String campsiteImgOriginal;
 	private String campsiteImgName;
 	private String campsiteImgPath;
 	
@@ -24,7 +25,8 @@ public class CampsiteImg {
 	@JoinColumn(name = "campsite_id")
 	private Campsite campsite;
 	
-	public void updateCampsiteImg(String campsiteImgName, String campsiteImgPath) {
+	public void updateCampsiteImg(String campsiteImgName, String campsiteImgOriginal, String campsiteImgPath) {
+		this.campsiteImgOriginal = campsiteImgOriginal;
 		this.campsiteImgName = campsiteImgName;
 		this.campsiteImgPath = campsiteImgPath;
 	}

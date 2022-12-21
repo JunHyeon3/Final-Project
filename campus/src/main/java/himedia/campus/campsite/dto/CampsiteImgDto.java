@@ -11,6 +11,7 @@ import lombok.Setter;
 public class CampsiteImgDto {
 
 	private Long campsiteImgId;
+	private String campsiteImgOriginal;
 	private String campsiteImgName;
 	private String campsiteImgPath;
 	
