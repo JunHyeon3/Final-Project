@@ -1,8 +1,5 @@
 package himedia.campus.campsite.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +21,7 @@ public class CampsiteDto {
 	private String campsiteIntroduction;
 	private String campsiteAddress;
 	private String campsiteTel;
+	private String campsiteMainImgPath;
 
 	private Integer campsitePrice;
 	private Integer campsiteMin;
@@ -35,18 +33,10 @@ public class CampsiteDto {
 	private String campsiteFacilitie;
 	private String campsiteTheme;
 	
-	private List<CampsiteImgDto> campsiteImgDtoList = new ArrayList<>();
-	private List<Long> campsiteImgId = new ArrayList<>();
-	
-
 	private static ModelMapper modelMapper = new ModelMapper();
 
 	public Campsite createCampsite() {
 		return modelMapper.map(this, Campsite.class);
-	}
-
-	public static CampsiteDto of(Campsite Campsite) {
-		return modelMapper.map(Campsite, CampsiteDto.class);
 	}
 
 }

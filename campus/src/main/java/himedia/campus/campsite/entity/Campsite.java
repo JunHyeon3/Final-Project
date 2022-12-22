@@ -21,6 +21,7 @@ public class Campsite {
 	private String campsiteIntroduction;
 	private String campsiteAddress;
 	private String campsiteTel;
+	private String campsiteMainImgPath;
 	
 	private Integer campsitePrice;
 	private Integer campsiteMin;
@@ -31,5 +32,9 @@ public class Campsite {
 	private String campsiteEnvironment;
 	private String campsiteFacilitie;
 	private String campsiteTheme;
+	
+	public void updateCampsiteMainImg(String campsiteMainImgPath) {
+		this.campsiteMainImgPath = campsiteMainImgPath;
+	}
 	
 }

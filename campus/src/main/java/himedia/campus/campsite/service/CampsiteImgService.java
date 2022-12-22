@@ -1,6 +1,7 @@
 package himedia.campus.campsite.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CampsiteImgService {
 		String campsiteImgOriginal = campsiteImgFile.getOriginalFilename();
 		String campsiteImgName = "";
 		String campsiteImgPath = "";
-
+		
 		if (!campsiteImgOriginal.isEmpty()) {
 			campsiteImgName = fileService.uploadFile(campsiteImgLocation, campsiteImgOriginal, campsiteImgFile.getBytes());
 			campsiteImgPath = "/campus/campsite/" + campsiteImgName;
@@ -34,6 +35,10 @@ public class CampsiteImgService {
 
 		campsiteImg.updateCampsiteImg(campsiteImgOriginal, campsiteImgName, campsiteImgPath);
 		campsiteImgRepository.save(campsiteImg);
+	}
+	
+	public List<String> findAllCampsiteImgPath(Long campsiteId) {
+		return campsiteImgRepository.findAllCampsiteImgPath(campsiteId);
 	}
 
 }

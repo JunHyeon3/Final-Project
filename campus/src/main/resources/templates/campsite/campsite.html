@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -11,44 +11,56 @@
 <body>
   <h1>캠핑장 상세</h1>
   <div>
-    <div style="width: 150px; height: 150px; background-color: yellow;"></div>
+    <img th:src="@{${campsite.campsiteMainImgPath}}" style="width: 150px; height: 150px;"/>
     <ul>
-      <li>캠핑장 이름</li>
-      <li>캠핑장 주소</li>
-      <li>캠핑장 전화 번호</li>
-      <li>이용 요금</li>
+      <li> 
+        캠핑장 이름 :<span th:text="${campsite.campsiteName}"></span>
+      </li>
+      <li>
+        캠핑장 주소 : <span th:text="${campsite.campsiteAddress}"></span>
+      </li>
+      <li>
+        캠핑장 연락처 : <span th:text="${campsite.campsiteTel}"></span>
+      </li>
     </ul>
+    <hr>
     <h2>상세 정보</h2>
-    <table>
+    <div th:each="campsiteImg: ${campsiteImgs}" style="float: left;">
+      <img th:src="@{${campsiteImg}}" style="width: 300px; height: 300px;"/>
+    </div>
+    <table style="clear: both;">
       <tbody>
         <tr>
-          <th>소개</th>
-          <td>소개글 ~~</td>
+          <th>소개 : </th>
+          <td th:text="${campsite.campsiteIntroduction}">소개글 ~~</td>
         </tr>
         <tr>
-          <th>환경</th>
-          <td>산, 바다</td>
+          <th>환경 : </th>
+          <td th:text="${campsite.campsiteEnvironment}">산, 바다</td>
         </tr>
         <tr>
-          <th>편의시설</th>
-          <td>샤워장, 취사장, 바베큐장</td>
+          <th>편의시설 : </th>
+          <td th:text="${campsite.campsiteFacilitie}">샤워장, 취사장, 바베큐장</td>
         </tr>
         <tr>
-          <th>체크인</th>
-          <td>14:00</td>
+          <th>1박 이용요금 : </th>
+          <td th:text="|${campsite.campsitePrice} 원|">샤워장, 취사장, 바베큐장</td>
         </tr>
         <tr>
-          <th>체크아웃</th>
-          <td>13:00</td>
+          <th>최소 이용 인원 : </th>
+          <td th:text="${campsite.campsiteMin}">13:00</td>
         </tr>
         <tr>
-          <th>매너타임</th>
-          <td>21:00 ~ 06:00
-          </td>
+          <th>최대 이용 인원 : </th>
+          <td th:text="${campsite.campsiteMax}">13:00</td>
         </tr>
         <tr>
-          <th>환경</th>
-          <td>산, 바다</td>
+          <th>체크인 : </th>
+          <td th:text="${campsite.campsiteCheckin}">14:00</td>
+        </tr>
+        <tr>
+          <th>체크아웃 : </th>
+          <td th:text="${campsite.campsiteCheckout}">13:00</td>
         </tr>
       </tbody>
     </table>

@@ -10,7 +10,7 @@
 <body>
 	<h1>메인화면</h1>
 	<ul>
-		<li><a th:href="@{#}">캠핑장 소개</a></li>
+		<li><a th:href="@{/campsites}">캠핑장 소개</a></li>
         <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
             <a th:href="@{/admin/campsite/new}">캠핑장 등록</a>
         </li>

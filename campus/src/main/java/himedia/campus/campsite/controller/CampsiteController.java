@@ -5,19 +5,25 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import himedia.campus.campsite.dto.CampsiteDto;
+import himedia.campus.campsite.entity.Campsite;
+import himedia.campus.campsite.service.CampsiteImgService;
 import himedia.campus.campsite.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CampsiteController {
 	
 	private final CampsiteService campsiteService;
+	private final CampsiteImgService campsiteImgService;
 	
 	@GetMapping("/admin/campsite/new")
 	public String campsiteForm(Model model) {
@@ -39,6 +45,21 @@ public class CampsiteController {
 		}
 		
 		return "redirect:/";
+	}
+	
+	@GetMapping("/campsites")
+	public String campsiteList(Model model) {
+		List<Campsite> findCampsites = campsiteService.findAllCampsite();
+		model.addAttribute("campsites", findCampsites);
+		
+		return "campsite/campsites";
+	}
+
+	@GetMapping("/campsites/{campsiteId}")
+	public String campsiteDetail(@PathVariable Long campsiteId, Model model) {
+		model.addAttribute("campsite", campsiteService.findByCampsiteId(campsiteId).get());
+		model.addAttribute("campsiteImgs", campsiteImgService.findAllCampsiteImgPath(campsiteId));
+		return "campsite/campsite";
 	}
 	
 }

@@ -1,75 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+  <body>
+    <h1>캠핑장 소개</h1>
+    <div>
+      <div>
+        <input type="radio" name="region" />서울
+        <input type="radio" name="region" />경기
+        <input type="radio" name="region" />인천
+        <input type="radio" name="region" />강원
+        <input type="radio" name="region" />부산
+        <input type="radio" name="region" />제주
+      </div>
+      <hr />
+      <div>
+        <input type="radio" name="region" />오토캠핑
+        <input type="radio" name="region" />글램핑
+        <input type="radio" name="region" />카라반
+        <input type="radio" name="region" />애견
+        <input type="radio" name="region" />키즈
+        <input type="radio" name="region" />차박
+      </div>
+      <hr />
+      <div>
+        <input type="radio" name="region" />도심
+        <input type="radio" name="region" />바다
+        <input type="radio" name="region" />계곡
+        <input type="radio" name="region" />산
+        <input type="radio" name="region" />강
+      </div>
 
-<body>
-  <h1>캠핑장 소개</h1>
-  <div>
-    <div>
-      <input type="radio" name="region">서울
-      <input type="radio" name="region">경기
-      <input type="radio" name="region">인천
-      <input type="radio" name="region">강원
-      <input type="radio" name="region">부산
-      <input type="radio" name="region">제주
-    </div>
-    <hr>
-    <div>
-      <input type="radio" name="region">오토캠핑
-      <input type="radio" name="region">글램핑
-      <input type="radio" name="region">카라반
-      <input type="radio" name="region">애견
-      <input type="radio" name="region">키즈
-      <input type="radio" name="region">차박
-    </div>
-    <hr>
-    <div>
-      <input type="radio" name="region">도심
-      <input type="radio" name="region">바다
-      <input type="radio" name="region">계곡
-      <input type="radio" name="region">산
-      <input type="radio" name="region">강
-    </div>
-    <hr>
-    <table>
-      <tbody>
+      <hr />
+
+      <table th:each="campsite: ${campsites}">
         <tr>
           <th>
-            <div style="width: 150px; height: 150px; background-color: yellow;">캠핑장 썸네일1</div>
+            <a th:href="@{/campsites/{campsiteId}(campsiteId=${campsite.campsiteId})}">
+              <img th:src="@{${campsite.campsiteMainImgPath}}" style="width: 150px; height: 150px;"/>
+            </a>
           </th>
           <td>
             <ul>
-              <li>캠핑장 이름</li>
-              <li>캠핑장 주소</li>
-              <li>캠핑장 전화 번호</li>
-              <li>이용 요금</li>
-              <li>제공 편의 시설</li>
+              <li>
+                캠핑장 이름 : <span th:text="${campsite.campsiteName}"></span>
+              </li>
+              <li>
+                캠핑장 주소 : <span th:text="${campsite.campsiteAddress}"></span>
+              </li>
+              <li>
+                캠핑장 연락처 : <span th:text="${campsite.campsiteTel}"></span>
+              </li>
+              <li>
+                캠핑장 이용요금 : <span th:text="|${campsite.campsitePrice} 원|"></span>
+              </li>
+              <li>
+                캠핑장 시설 : <span th:text="${campsite.campsiteFacilitie}"></span>
+              </li>
             </ul>
           </td>
         </tr>
-        <tr>
-          <th>
-            <div style="width: 150px; height: 150px; background-color: yellow;">캠핑장 썸네일2</div>
-          </th>
-          <td>
-            <ul>
-              <li>캠핑장 이름</li>
-              <li>캠핑장 주소</li>
-              <li>캠핑장 전화 번호</li>
-              <li>이용 요금</li>
-              <li>제공 편의 시설</li>
-            </ul>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</body>
-
+      </table>
+    </div>
+  </body>
 </html>
