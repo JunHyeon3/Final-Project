@@ -17,6 +17,7 @@ public class CampsiteDto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long campsiteId;
+	private String campsiteManager;
 	private String campsiteName;
 	private String campsiteIntroduction;
 	private String campsiteAddress;
@@ -38,5 +39,5 @@ public class CampsiteDto {
 	public Campsite createCampsite() {
 		return modelMapper.map(this, Campsite.class);
 	}
-
+	
 }

@@ -46,5 +46,5 @@ public class MemberController {
 	public String loginForm() {
 		return "member/login";
 	}
-	
+
 }

@@ -17,6 +17,7 @@ public class Campsite {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long campsiteId;
+	private String campsiteManager;
 	private String campsiteName;
 	private String campsiteIntroduction;
 	private String campsiteAddress;

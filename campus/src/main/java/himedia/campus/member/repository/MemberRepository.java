@@ -9,6 +9,6 @@ import himedia.campus.member.entity.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-	Member findByMemberId(String memberId);
+	Optional<Member> findByMemberId(String memberId);
 	Optional<Member> findByMemberNo(Long memberNo);
 }

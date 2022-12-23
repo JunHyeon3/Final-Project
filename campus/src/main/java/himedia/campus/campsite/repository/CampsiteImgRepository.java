@@ -9,5 +9,7 @@ import himedia.campus.campsite.entity.CampsiteImg;
 
 public interface CampsiteImgRepository extends JpaRepository<CampsiteImg, Long> {
 	@Query(value = "select campsite_img_path from campsite_img where campsite_id=?", nativeQuery = true)
-	List<String> findAllCampsiteImgPath(Long campsiteId); 	
+	List<String> findAllCampsiteImgPath(Long campsiteId);
+
+	List<CampsiteImg> findByCampsite_CampsiteId(Long campsiteId);
 }

@@ -29,6 +29,7 @@ public class CampsiteService {
 		campsiteDto.setCampsiteEnvironment(String.join(", ", campsiteEnvironment));
 		campsiteDto.setCampsiteFacilitie(String.join(", ", campsiteFacilitie));
 		campsiteDto.setCampsiteTheme(String.join(", ", campsiteTheme));
+		
 		Campsite campsite = campsiteDto.createCampsite();
 		
 		campsiteRepository.save(campsite);
@@ -42,15 +43,27 @@ public class CampsiteService {
 			}
 		}
 		
+		
 		return campsite.getCampsiteId(); 
 	}
 	
+	public Optional<Campsite> findByCampsiteManager(String campsiteManager) {
+		return campsiteRepository.findByCampsiteManager(campsiteManager);
+	}
+
 	public Optional<Campsite> findByCampsiteId(Long campsiteId) {
-		return campsiteRepository.findById(campsiteId);
+		return campsiteRepository.findByCampsiteId(campsiteId);
 	}
 	
 	public List<Campsite> findAllCampsite() {
 		return campsiteRepository.findAll();
+	}
+	
+	public void deleteCampsite(Campsite campsite, List<CampsiteImg> findCampsiteImg) throws Exception {
+		for(CampsiteImg f: findCampsiteImg) {
+			campsiteImgService.deleteCampsiteImg(f);
+		}
+		campsiteRepository.delete(campsite);
 	}
 	
 }

@@ -36,9 +36,17 @@ public class CampsiteImgService {
 		campsiteImg.updateCampsiteImg(campsiteImgOriginal, campsiteImgName, campsiteImgPath);
 		campsiteImgRepository.save(campsiteImg);
 	}
+
+	public List<CampsiteImg> findByCampsiteId(Long campsiteId) {
+		return campsiteImgRepository.findByCampsite_CampsiteId(campsiteId);
+	}
 	
 	public List<String> findAllCampsiteImgPath(Long campsiteId) {
 		return campsiteImgRepository.findAllCampsiteImgPath(campsiteId);
 	}
 
+	public void deleteCampsiteImg(CampsiteImg campsiteImg) throws Exception {
+		campsiteImgRepository.delete(campsiteImg);
+		fileService.deleteFile(campsiteImgLocation);
+	}
 }
