@@ -36,7 +36,7 @@ public class CampsiteDto {
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 
-	public Campsite createCampsite() {
+	public Campsite toEntity() {
 		return modelMapper.map(this, Campsite.class);
 	}
 	

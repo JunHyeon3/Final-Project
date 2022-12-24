@@ -30,7 +30,7 @@ public class CampsiteService {
 		campsiteDto.setCampsiteFacilitie(String.join(", ", campsiteFacilitie));
 		campsiteDto.setCampsiteTheme(String.join(", ", campsiteTheme));
 		
-		Campsite campsite = campsiteDto.createCampsite();
+		Campsite campsite = campsiteDto.toEntity();
 		
 		campsiteRepository.save(campsite);
 		
@@ -43,8 +43,37 @@ public class CampsiteService {
 			}
 		}
 		
-		
 		return campsite.getCampsiteId(); 
+	}
+	
+	public Long updateCampsite(CampsiteDto campsiteDto, 
+								List<String> campsiteEnvironment,
+								List<String> campsiteFacilitie, 
+								List<String> campsiteTheme,
+								List<MultipartFile> campsiteImgFiles) throws Exception {
+		campsiteDto.setCampsiteEnvironment(String.join(", ", campsiteEnvironment));
+		campsiteDto.setCampsiteFacilitie(String.join(", ", campsiteFacilitie));
+		campsiteDto.setCampsiteTheme(String.join(", ", campsiteTheme));
+		
+		Campsite findCampsite = campsiteRepository.findByCampsiteId(campsiteDto.getCampsiteId()).get();
+		findCampsite.updateCampsite(campsiteDto);
+		
+		List<CampsiteImg> findCampsiteImg = campsiteImgService.findByCampsiteId(campsiteDto.getCampsiteId());
+		for(int i=0; i<campsiteImgFiles.size(); i++) {
+			campsiteImgService.updateCampsiteImg(findCampsiteImg.get(i), campsiteImgFiles.get(i));
+			if(i==0) {
+				findCampsite.updateCampsiteMainImg(findCampsiteImg.get(0).getCampsiteImgPath());
+			}
+		}
+		
+		return findCampsite.getCampsiteId(); 
+	}
+	
+	public void deleteCampsite(Campsite campsite, List<CampsiteImg> findCampsiteImg) throws Exception {
+		for(CampsiteImg fci: findCampsiteImg) {
+			campsiteImgService.deleteCampsiteImg(fci);
+		}
+		campsiteRepository.delete(campsite);
 	}
 	
 	public Optional<Campsite> findByCampsiteManager(String campsiteManager) {
@@ -57,13 +86,6 @@ public class CampsiteService {
 	
 	public List<Campsite> findAllCampsite() {
 		return campsiteRepository.findAll();
-	}
-	
-	public void deleteCampsite(Campsite campsite, List<CampsiteImg> findCampsiteImg) throws Exception {
-		for(CampsiteImg f: findCampsiteImg) {
-			campsiteImgService.deleteCampsiteImg(f);
-		}
-		campsiteRepository.delete(campsite);
 	}
 	
 }

@@ -1,6 +1,5 @@
 package himedia.campus.campsite.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,7 @@ public class CampsiteImgService {
 
 	private final FileService fileService;
 
-	public void saveCampsiteImg(CampsiteImg campsiteImg, MultipartFile campsiteImgFile) throws IOException, Exception  {
+	public void saveCampsiteImg(CampsiteImg campsiteImg, MultipartFile campsiteImgFile) throws Exception  {
 		String campsiteImgOriginal = campsiteImgFile.getOriginalFilename();
 		String campsiteImgName = "";
 		String campsiteImgPath = "";
@@ -36,6 +35,25 @@ public class CampsiteImgService {
 		campsiteImg.updateCampsiteImg(campsiteImgOriginal, campsiteImgName, campsiteImgPath);
 		campsiteImgRepository.save(campsiteImg);
 	}
+	
+	public void updateCampsiteImg(CampsiteImg campsiteImg, MultipartFile campsiteImgFile) throws Exception  {
+		
+		if(!campsiteImgFile.isEmpty()) {
+            if (!campsiteImg.getCampsiteImgName().isEmpty()) {
+                fileService.deleteFile(campsiteImgLocation + "/" + campsiteImg.getCampsiteImgName());
+            }
+
+            String campsiteImgOriginal = campsiteImgFile.getOriginalFilename();
+            String campsiteImgName = fileService.uploadFile(campsiteImgLocation, campsiteImgOriginal, campsiteImgFile.getBytes());
+            String campsiteImgPath = "/campus/campsite/" + campsiteImgName;
+            campsiteImg.updateCampsiteImg(campsiteImgName, campsiteImgOriginal, campsiteImgPath);
+        }
+	}
+
+	public void deleteCampsiteImg(CampsiteImg campsiteImg) throws Exception {
+		campsiteImgRepository.delete(campsiteImg);
+		fileService.deleteFile(campsiteImgLocation + "/" + campsiteImg.getCampsiteImgName());
+	}
 
 	public List<CampsiteImg> findByCampsiteId(Long campsiteId) {
 		return campsiteImgRepository.findByCampsite_CampsiteId(campsiteId);
@@ -45,8 +63,4 @@ public class CampsiteImgService {
 		return campsiteImgRepository.findAllCampsiteImgPath(campsiteId);
 	}
 
-	public void deleteCampsiteImg(CampsiteImg campsiteImg) throws Exception {
-		campsiteImgRepository.delete(campsiteImg);
-		fileService.deleteFile(campsiteImgLocation);
-	}
 }

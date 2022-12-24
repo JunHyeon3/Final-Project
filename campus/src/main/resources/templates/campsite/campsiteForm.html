@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>캠핑장 등록</h1>
-  <form th:action="@{/admin/campsite/new}" th:object="${campsiteDto}" th:method="post" enctype="multipart/form-data">
+  <form th:action="@{/admin/campsites/new}" th:object="${campsiteDto}" th:method="post" enctype="multipart/form-data">
     <div>
       캠핑장 이름
       <input type="text" th:field="*{campsiteName}">

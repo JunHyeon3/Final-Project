@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.modelmapper.ModelMapper;
+
+import himedia.campus.campsite.dto.CampsiteDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +39,27 @@ public class Campsite {
 	
 	public void updateCampsiteMainImg(String campsiteMainImgPath) {
 		this.campsiteMainImgPath = campsiteMainImgPath;
+	}
+	
+	public void updateCampsite(CampsiteDto campsiteDto) {
+		this.campsiteName =  campsiteDto.getCampsiteName();
+		this.campsiteIntroduction =  campsiteDto.getCampsiteIntroduction();
+		this.campsiteAddress =  campsiteDto.getCampsiteAddress();
+		this.campsiteTel =  campsiteDto.getCampsiteTel();
+		this.campsitePrice =  campsiteDto.getCampsitePrice();
+		this.campsiteMin =  campsiteDto.getCampsiteMin();
+		this.campsiteMax =  campsiteDto.getCampsiteMax();
+		this.campsiteCheckin =  campsiteDto.getCampsiteCheckin();
+		this.campsiteCheckout =  campsiteDto.getCampsiteCheckout();
+		this.campsiteEnvironment =  campsiteDto.getCampsiteEnvironment();
+		this.campsiteFacilitie =  campsiteDto.getCampsiteFacilitie();
+		this.campsiteTheme =  campsiteDto.getCampsiteTheme();
+	}
+	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	public static CampsiteDto toDto(Campsite campsite) {
+		return modelMapper.map(campsite, CampsiteDto.class);
 	}
 	
 }

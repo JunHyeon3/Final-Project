@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>캠핑장 관리</h1>
-  <form th:action="@{#}" th:object="${existCampsite}" th:method="put" enctype="multipart/form-data">
+  <form th:action="@{|/admin/campsites/${existCampsite.campsiteId}|}" th:object="${existCampsite}" th:method="put" enctype="multipart/form-data">
     <div>
       캠핑장 이름
       <input type="text" th:field="*{campsiteName}" th:value="${existCampsite.campsiteName}">
@@ -87,7 +87,7 @@
     
     <input type="submit" value="수정">
   </form>
-  <form th:action="@{#}" th:method="delete">
+  <form th:action="@{|/admin/campsites/${existCampsite.campsiteId}|}" th:method="delete">
     <input type="submit" value="삭제">
   </form>
 </body>

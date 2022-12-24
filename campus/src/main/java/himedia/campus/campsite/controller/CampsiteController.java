@@ -20,11 +20,9 @@ import himedia.campus.campsite.entity.CampsiteImg;
 import himedia.campus.campsite.service.CampsiteImgService;
 import himedia.campus.campsite.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class CampsiteController {
 	
 	private final CampsiteService campsiteService;
@@ -45,26 +43,27 @@ public class CampsiteController {
 		return "campsite/campsite";
 	}
 	
-	@GetMapping("/admin/campsite/management")
+	@GetMapping("/admin/campsites")
 	public String campsiteForm(Principal principal, Model model) {
 		Optional<Campsite> existCampsite = campsiteService.findByCampsiteManager(principal.getName());
+		
 		if(existCampsite.isEmpty()) {
 			model.addAttribute("campsiteDto", new CampsiteDto());
 			return "campsite/campsiteForm";
 		}
 		else {
-			model.addAttribute("existCampsite", existCampsite.get());
+			model.addAttribute("existCampsite", Campsite.toDto(existCampsite.get()));
 			return "campsite/campsiteEdit";
 		}
 	}
 	
-	@PostMapping("/admin/campsite/new")
-	public String campsiteNew(CampsiteDto campsiteDto, Model model,
-								Principal principal,
+	@PostMapping("/admin/campsites/new")
+	public String campsiteNew(CampsiteDto campsiteDto,
 								@RequestParam List<String> campsiteEnvironment,
 								@RequestParam List<String> campsiteFacilitie, 
 								@RequestParam List<String> campsiteTheme,
-								@RequestParam List<MultipartFile> campsiteImgFiles) {
+								@RequestParam List<MultipartFile> campsiteImgFiles,
+								Model model, Principal principal) {
 		try {
 			campsiteDto.setCampsiteManager(principal.getName());
 			campsiteService.saveCampsite(campsiteDto, campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
@@ -76,16 +75,20 @@ public class CampsiteController {
 		return "redirect:/";
 	}
 	
-	@PutMapping("/admin/campsite/management")
-	public String campsiteEdit() {
-		log.info("수정 실행");
+	@PutMapping("/admin/campsites/{campsiteId}")
+	public String campsiteEdit(CampsiteDto campsiteDto,
+								@RequestParam List<String> campsiteEnvironment,
+								@RequestParam List<String> campsiteFacilitie, 
+								@RequestParam List<String> campsiteTheme,
+								@RequestParam List<MultipartFile> campsiteImgFiles) throws Exception {
+		campsiteService.updateCampsite(campsiteDto, campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
 		return "redirect:/";
 	}
 	
-	@DeleteMapping("/admin/campsite/management")
-	public String campsiteDelete(Principal principal) throws Exception {
-		Campsite findCampsite = campsiteService.findByCampsiteManager(principal.getName()).get();
-		List<CampsiteImg> findCampsiteImg = campsiteImgService.findByCampsiteId(findCampsite.getCampsiteId());
+	@DeleteMapping("/admin/campsites/{campsiteId}")
+	public String campsiteDelete(@PathVariable Long campsiteId) throws Exception {
+		Campsite findCampsite = campsiteService.findByCampsiteId(campsiteId).get();
+		List<CampsiteImg> findCampsiteImg = campsiteImgService.findByCampsiteId(campsiteId);
 		
 		campsiteService.deleteCampsite(findCampsite, findCampsiteImg);
 		return "redirect:/";

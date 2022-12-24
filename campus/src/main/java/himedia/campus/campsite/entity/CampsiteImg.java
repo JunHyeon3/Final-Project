@@ -12,7 +12,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity 
-@Getter @Setter
+@Getter 
+@Setter
 public class CampsiteImg {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +31,5 @@ public class CampsiteImg {
 		this.campsiteImgName = campsiteImgName;
 		this.campsiteImgPath = campsiteImgPath;
 	}
-	
+	 	
 }
