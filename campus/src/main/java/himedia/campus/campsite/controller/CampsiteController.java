@@ -19,6 +19,8 @@ import himedia.campus.campsite.entity.Campsite;
 import himedia.campus.campsite.entity.CampsiteImg;
 import himedia.campus.campsite.service.CampsiteImgService;
 import himedia.campus.campsite.service.CampsiteService;
+import himedia.campus.member.entity.Member;
+import himedia.campus.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -27,6 +29,7 @@ public class CampsiteController {
 	
 	private final CampsiteService campsiteService;
 	private final CampsiteImgService campsiteImgService;
+	private final MemberService memberService;
 
 	@GetMapping("/campsites")
 	public String campsiteList(Model model) {
@@ -65,7 +68,9 @@ public class CampsiteController {
 								@RequestParam List<MultipartFile> campsiteImgFiles,
 								Model model, Principal principal) {
 		try {
-			campsiteDto.setCampsiteManager(principal.getName());
+			Member findMember = memberService.findByMemberId(principal.getName()).get();
+			campsiteDto.setCampsiteManager(findMember.getMemberName());
+			
 			campsiteService.saveCampsite(campsiteDto, campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "상품 등록 중 에러가 발생하였습니다.");

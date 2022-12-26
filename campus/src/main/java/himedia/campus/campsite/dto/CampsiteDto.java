@@ -1,9 +1,5 @@
 package himedia.campus.campsite.dto;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import org.modelmapper.ModelMapper;
 
 import himedia.campus.campsite.entity.Campsite;
@@ -14,8 +10,6 @@ import lombok.Setter;
 @Setter
 public class CampsiteDto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long campsiteId;
 	private String campsiteManager;
 	private String campsiteName;

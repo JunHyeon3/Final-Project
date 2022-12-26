@@ -1,32 +1,30 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
   <h1>예약 하기</h1>
-  <div style="width: 300px; height: 300px; background-color: blue;"></div>
-  <form action="#" method="post">
-    <div>
-      예약자 명 :
-      <input type="text">
-    </div>
+  <div th:text="${resevationCampsite.campsiteName}"></div>
+  <img th:src="${resevationCampsite.campsiteMainImgPath}" style="height: 300px;">
+  <form th:action th:method="post" th:object="${reservationDto}">
     <div>
       입실일 :
-      <input type="date">
+      <input type="date" th:field="*{checkinDate}">
     </div>
     <div>
       퇴실일 :
-      <input type="date">
+      <input type="date" th:field="*{checkoutDate}">
     </div>
     <div>
       인원 수 :
-      <input type="number">
+      <input type="number" th:field="*{headCount}">
     </div>
     <div>
       결제 금액 :
-      <input type="text">
+      <input type="text" th:field="*{totalPrice}">
     </div>
     <input type="submit" value="예약하기">
   </form>

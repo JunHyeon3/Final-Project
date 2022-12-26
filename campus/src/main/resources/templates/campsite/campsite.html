@@ -22,6 +22,9 @@
       <li>
         캠핑장 연락처 : <span th:text="${campsite.campsiteTel}"></span>
       </li>
+      <li>
+      	<input type="button" th:onclick="|location.href='@{/reservation/{campsiteId}(campsiteId = ${campsite.campsiteId})}'|" value="예약하기">
+      </li>
     </ul>
     <hr>
     <h2>상세 정보</h2>

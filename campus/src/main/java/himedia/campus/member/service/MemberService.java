@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService implements UserDetailsService{
+public class MemberService implements UserDetailsService {
 
 	private final MemberRepository memberRepository;
 	
@@ -40,21 +40,25 @@ public class MemberService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-        Optional<Member> findMember = memberRepository.findByMemberId(memberId);
+        Member findMember = memberRepository.findByMemberId(memberId).get();
 
-        if(findMember.isEmpty()){
+        if(findMember == null){
             throw new UsernameNotFoundException("등록되지 않은 회원입니다.");
         }
         
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("admin".equals(findMember.get().getMemberRole())) {
+        if ("admin".equals(findMember.getMemberRole())) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         } 
         else {
             authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         }
         
-        return new User(findMember.get().getMemberId(), findMember.get().getMemberPw(), authorities);
+        return new User(findMember.getMemberId(), findMember.getMemberPw(), authorities);
+	}
+	
+	public Optional<Member> findByMemberId(String memberId) {
+		return memberRepository.findByMemberId(memberId);
 	}
 	
 }
