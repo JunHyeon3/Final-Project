@@ -11,4 +11,5 @@ import himedia.campus.member.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	Optional<Member> findByMemberId(String memberId);
 	Optional<Member> findByMemberNo(Long memberNo);
+	Optional<Member> findByMemberName(String memberName);
 }

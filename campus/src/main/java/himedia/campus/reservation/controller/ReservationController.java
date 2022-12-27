@@ -1,7 +1,7 @@
 package himedia.campus.reservation.controller;
 
 import java.security.Principal;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +42,6 @@ public class ReservationController {
 	
 	@PostMapping("/reservation/{campsiteId}")
 	public String reservationNew(@PathVariable Long campsiteId, Principal principal, ReservationDto reservationDto) {
-		
 		reservationService.saveReservation(reservationDto, campsiteId, principal.getName());
 		
 		return "redirect:/";

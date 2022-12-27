@@ -1,13 +1,18 @@
 package himedia.campus.campsite.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.modelmapper.ModelMapper;
 
 import himedia.campus.campsite.dto.CampsiteDto;
+import himedia.campus.reservation.entity.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,6 +41,12 @@ public class Campsite {
 	private String campsiteEnvironment;
 	private String campsiteFacilitie;
 	private String campsiteTheme;
+
+    @OneToMany(mappedBy = "campsite")
+    private List<CampsiteImg> campsiteImgs = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "campsite")
+    private List<Reservation> reservations = new ArrayList<>();
 	
 	public void updateCampsiteMainImg(String campsiteMainImgPath) {
 		this.campsiteMainImgPath = campsiteMainImgPath;

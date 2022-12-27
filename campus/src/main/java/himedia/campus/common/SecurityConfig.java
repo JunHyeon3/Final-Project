@@ -1,4 +1,4 @@
-package himedia.campus.config;
+package himedia.campus.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -14,11 +14,12 @@
         <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
             <a th:href="@{/admin/campsites}">캠핑장 등록/관리</a>
         </li>
-		<li><a th:href="@{#}">리뷰 게시판</a></li>
+		<li><a th:href="@{/reviews}">리뷰 게시판</a></li>
 		<li><a th:href="@{#}">마이페이지</a></li>
 	</ul>
 	<ul>
 		<li><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></li>
+		<li><span sec:authorize="isAuthenticated()" sec:authentication="name"></span></li>
 		<li><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
 		<li><a th:href="@{/member/join}">회원가입</a></li>
 	</ul>

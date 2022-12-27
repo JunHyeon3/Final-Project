@@ -1,13 +1,19 @@
 package himedia.campus.member.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import himedia.campus.member.dto.MemberDto;
+import himedia.campus.reservation.entity.Reservation;
+import himedia.campus.review.entity.Review;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +34,12 @@ public class Member {
 	private String memberPhone;
 	
 	private Integer memberAge;
+	
+    @OneToMany(mappedBy = "member")
+    private List<Reservation> reservations = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "member")
+    private List<Review> reviews = new ArrayList<>();
 
 	public static Member create(MemberDto memberDto, PasswordEncoder encoder) {
 		Member member = new Member();

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import himedia.campus.campsite.entity.CampsiteImg;
 import himedia.campus.campsite.repository.CampsiteImgRepository;
+import himedia.campus.common.FileService;
 import lombok.RequiredArgsConstructor;
 
 @Service

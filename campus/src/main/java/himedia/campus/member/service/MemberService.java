@@ -61,4 +61,8 @@ public class MemberService implements UserDetailsService {
 		return memberRepository.findByMemberId(memberId);
 	}
 	
+	public Optional<Member> findByMemberName(String memberName) {
+		return memberRepository.findByMemberName(memberName);
+	}
+	
 }

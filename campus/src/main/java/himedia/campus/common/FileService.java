@@ -1,4 +1,4 @@
-package himedia.campus.campsite.service;
+package himedia.campus.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
