@@ -37,9 +37,9 @@ public class Review {
 		this.reviewContent =  reviewDto.getReviewContent();
 	}
 	
-	private static ModelMapper modelMapper;
+	private static ModelMapper modelMapper = new ModelMapper();
 
-	public ReviewDto toDto(Review review) {
+	public static ReviewDto toDto(Review review) {
 		return modelMapper.map(review, ReviewDto.class);
 	}
 	

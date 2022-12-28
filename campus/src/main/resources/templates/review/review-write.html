@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+</head>
+
+<body>
+
+  <h1>리뷰 등록</h1>
+  <form th:action th:object="${reviewDto}" th:method="post" enctype="multipart/form-data">
+	<div>
+      캠핑장
+      <select th:field="*{reviewCampsite}">
+        <option value="">이용한 캠핑장 선택</option>
+        <option th:each="campsite: ${campsites}" th:value="${campsite.campsiteName}" th:text="${campsite.campsiteName}"></option>
+      </select>
+    </div>
+    <div>
+      작성자
+      <input type="text" th:field="*{reviewWriter}">
+    </div>
+    <div>
+      제목
+      <input type="text" th:field="*{reviewTitle}">
+    </div>
+    <div>
+      내용
+      <textarea th:field="*{reviewContent}" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <label >이미지1</label>
+      <input type="file" name= "reviewImg">
+      <label >이미지2</label>
+      <input type="file" name= "reviewImg">
+      <label >이미지3</label>
+      <input type="file" name= "reviewImg">
+    </div>
+    
+    <input type="submit" value="등록하기">
+    <input type="button" th:onclick="|location.href='@{/reviews}'|" value="취소">
+  </form>
+</body>
+
+</html>

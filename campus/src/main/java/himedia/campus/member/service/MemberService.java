@@ -47,7 +47,7 @@ public class MemberService implements UserDetailsService {
         }
         
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("admin".equals(findMember.getMemberRole())) {
+        if ("ADMIN".equals(findMember.getMemberRole().name())) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         } 
         else {

@@ -4,13 +4,14 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import himedia.campus.member.entity.MemberRole;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class MemberDto {
 	
-	private String memberRole;
+	private MemberRole memberRole;
 	
 	@NotEmpty(message = "ID는 필수 입력 항목입니다.")
 	private String memberId;

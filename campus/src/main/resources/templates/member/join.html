@@ -16,10 +16,10 @@
     <p th:if="${error}" th:text="${error}"></p>
     <div>
       권한 :
-      사용자
-      <input type="radio" name="memberRole" value="user" checked>
-      관리자
-      <input type="radio" name="memberRole" value="admin">
+      <div th:each="memberRole: ${memberRoles}">
+	    <input type="radio" th:field="*{memberRole}" th:value="${memberRole.name()}">
+	    <label th:for="${#ids.prev('memberRole')}" th:text="${memberRole.text}"></label>
+      </div>
     </div>
     <div>
       아이디 :

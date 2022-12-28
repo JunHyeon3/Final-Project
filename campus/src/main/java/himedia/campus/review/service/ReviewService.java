@@ -1,9 +1,12 @@
 package himedia.campus.review.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,13 +42,13 @@ public class ReviewService {
 		return review.getReviewId();
 	}
 
-	public Long updateReview(ReviewDto reviewDto, List<MultipartFile> reviewImgFiles) throws Exception {
+	public Long updateReview(ReviewDto reviewDto, List<MultipartFile> reviewImgs) throws Exception {
 		Review findReview = reviewRepository.findByReviewId(reviewDto.getReviewId()).get();
 		findReview.updateReview(reviewDto);
 		
 		List<ReviewImg> findReviewImg = reviewImgService.findByReviewId(reviewDto.getReviewId());
-		for (int i = 0; i < reviewImgFiles.size(); i++) {
-			reviewImgService.updateReviewImg(findReviewImg.get(i), reviewImgFiles.get(i));
+		for (int i = 0; i < reviewImgs.size(); i++) {
+			reviewImgService.updateReviewImg(findReviewImg.get(i), reviewImgs.get(i));
 		}
 		
 		return findReview.getReviewId();
@@ -58,8 +61,12 @@ public class ReviewService {
 		reviewRepository.delete(review);
 	}
 
-	public List<Review> findAllReviews() {
-		return reviewRepository.findAll();
+	public Page<Review> pageList(Pageable pageable) {
+		return reviewRepository.findAll(pageable);
+	}
+
+	public Optional<Review> findByReviewId(Long reviewId) {
+		return reviewRepository.findByReviewId(reviewId);
 	}
 	
 }

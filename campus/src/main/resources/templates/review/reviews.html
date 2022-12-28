@@ -19,13 +19,19 @@
         <th>조회수</th>
       </tr>
       <tr th:each="review: ${reviews}">
-        <td th:text="${review.reviewId}"></td>        
-        <td th:text="${review.reviewCampsite}"></td>      
-        <td th:text="${review.reviewTitle}"></td>
-        <td th:text="${review.reviewWriter}"></td>
+        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewId}"></a></td>        
+        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewCampsite}"></a></td>        
+        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewTitle}"></a></td>        
+        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewWriter}"></a></td>        
         <td th:text="${review.reviewViews}"></td>        
       </tr>
     </table>
+    
+    <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
+      <a th:if="${page != nowPage}" th:href="@{/reviews(page=${page-1})}" th:text ="${page}"></a>
+      <strong th:if="${page==nowPage}" th:text ="${page}" style="color:red"></strong>
+    </th:block>
+        
     <input type="button" th:onclick="|location.href='@{/reviews/post}'|" value="리뷰 등록">
   </body>
 </html>
