@@ -20,7 +20,7 @@ public class ReservationDto {
 	private Date checkoutDate;
 	private Integer headCount;
 	private Integer totalPrice;
-	private String reservationStatus;
+	private ReservationStatus reservationStatus;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	

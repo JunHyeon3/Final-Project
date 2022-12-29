@@ -10,7 +10,15 @@
 
   <body>
     <h1>리뷰 목록</h1>
-    <table>
+
+	<form th:action="@{/reviews/search}" th:method="get">
+	  검색 
+	  <input type="search" name="searchCampsite" placeholder="검색할 캠핑장을 입력하세요...">
+	  <input type="submit" value="검색">
+	  <input type="button" th:onclick="|location.href='@{/reviews}'|" value="전체보기">
+	</form>
+
+    <table style="border-collapse: 1px solid black">
       <tr>
         <th>번호</th>
         <th>캠핑장</th>
@@ -27,11 +35,15 @@
       </tr>
     </table>
     
+    <a th:if="${startPage!=nowPage}" th:href="${searchCampsite}? @{/reviews(page=${nowPage-2}, searchCampsite=${searchCampsite})} : @{/reviews(page=${nowPage-2})}">이전</a>
     <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
-      <a th:if="${page != nowPage}" th:href="@{/reviews(page=${page-1})}" th:text ="${page}"></a>
-      <strong th:if="${page==nowPage}" th:text ="${page}" style="color:red"></strong>
+      <a th:if="${page != nowPage}" th:href="${searchCampsite}? @{/reviews(page=${page-1}, searchCampsite=${searchCampsite})} : @{/reviews(page=${page-1})}" th:text ="${page}"></a>
+      <strong th:unless="${page != nowPage}" th:text ="${page}" style="color:red"></strong>
     </th:block>
-        
+    <a th:if="${endPage!=nowPage}" th:href="${searchCampsite}? @{/reviews(page=${nowPage}, searchCampsite=${searchCampsite})} : @{/reviews(page=${nowPage})}">다음</a>
+    
+    <br>
+
     <input type="button" th:onclick="|location.href='@{/reviews/post}'|" value="리뷰 등록">
   </body>
 </html>

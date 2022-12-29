@@ -37,21 +37,32 @@ public class ReviewController {
 	private final ReviewImgService reviewImgService;
 	private final MemberService memberService;
 	
-	@GetMapping("/reviews")
-	public String reviewList(@PageableDefault(sort="reviewId", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-		Page<Review> pageList = reviewService.pageList(pageable);
-
-		int nowPage = pageList.getPageable().getPageNumber() + 1;
-        int startPage =  Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage+9, pageList.getTotalPages());
-
-
-        model.addAttribute("reviews", pageList);
+	@GetMapping(value={"/reviews", "/reviews/search"})
+	public String reviewList(@RequestParam(required = false) String searchCampsite, @PageableDefault(sort="reviewId", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+		Page<Review> reviewList = null;
+		if(searchCampsite != null) {
+			reviewList = reviewService.findBySearchCampsite(searchCampsite, pageable);
+		} else {
+			reviewList = reviewService.pageList(pageable);
+		}
+		
+		int nowPage = reviewList.getPageable().getPageNumber()+1;                                                                                                                                                                                                                                                                                                                                                                                                               ;
+		int startPage = 1;
+		int endPage = reviewList.getTotalPages();
+		if(reviewList.getTotalPages() >= 10) {
+			startPage =  Math.max(nowPage-5, 1);
+			endPage = Math.min(nowPage+4, reviewList.getTotalPages());
+			if(nowPage < 7) {
+				endPage = 10;
+			} 
+		}
+		
+        model.addAttribute("reviews", reviewList);
+        model.addAttribute("searchCampsite", searchCampsite);
         model.addAttribute("nowPage",nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
-		
+        
 		return "review/reviews";
 	}
 	

@@ -27,7 +27,7 @@ public class ReservationService {
 	
 	public Long saveReservation(ReservationDto reservationDto, Long campsiteId, String memberId) {
 		reservationDto.setReservationDate(LocalDateTime.now());
-		reservationDto.setReservationStatus(ReservationStatus.WAITING.getValue());
+		reservationDto.setReservationStatus(ReservationStatus.WAITING);
 		Reservation reservation = reservationDto.toEntity();
 		
 		Campsite findCampsite = campsiteRepository.findByCampsiteId(campsiteId).get();

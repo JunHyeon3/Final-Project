@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +30,8 @@ public class Reservation {
 	private Date checkoutDate;
 	private Integer headCount;
 	private Integer totalPrice;
-	private String reservationStatus;
+	@Enumerated(value=EnumType.STRING)
+	private ReservationStatus reservationStatus;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")

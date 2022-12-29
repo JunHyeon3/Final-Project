@@ -61,12 +61,16 @@ public class ReviewService {
 		reviewRepository.delete(review);
 	}
 
+	public Optional<Review> findByReviewId(Long reviewId) {
+		return reviewRepository.findByReviewId(reviewId);
+	}
+
 	public Page<Review> pageList(Pageable pageable) {
 		return reviewRepository.findAll(pageable);
 	}
 
-	public Optional<Review> findByReviewId(Long reviewId) {
-		return reviewRepository.findByReviewId(reviewId);
+	public Page<Review> findBySearchCampsite(String searchCampsite, Pageable pageable) {;
+		return reviewRepository.findByReviewCampsiteContaining(searchCampsite, pageable);
 	}
 	
 }
