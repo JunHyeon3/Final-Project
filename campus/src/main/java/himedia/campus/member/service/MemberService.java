@@ -14,22 +14,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import himedia.campus.member.dto.MemberDto;
 import himedia.campus.member.entity.Member;
 import himedia.campus.member.entity.MemberRole;
 import himedia.campus.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
 
 	private final MemberRepository memberRepository;
-	
-	@Transactional
-	public Long saveMember(Member member) {
-		checkDuplication(member);
-		return memberRepository.save(member).getMemberNo();
-	}
 	
 	private void checkDuplication(Member member) {
 		Optional<Member> findMember = memberRepository.findByMemberId(member.getMemberId());
@@ -37,7 +33,29 @@ public class MemberService implements UserDetailsService {
 			throw new IllegalStateException("이미 등록된 회원입니다.");
 		}
 	}
-
+	
+	public Long saveMember(Member member) {
+		checkDuplication(member);
+		return memberRepository.save(member).getMemberNo();
+	}
+	
+	public void updateMember(MemberDto memberDto) {
+		Member findMember = memberRepository.findByMemberId(memberDto.getMemberId()).get();
+		findMember.updateMember(memberDto);
+	}
+	
+	public Optional<Member> findByMemberId(String memberId) {
+		return memberRepository.findByMemberId(memberId);
+	}
+	
+	public Optional<Member> findByMemberName(String memberName) {
+		return memberRepository.findByMemberName(memberName);
+	}
+	
+	public Optional<Member> findByMemberNo(Long memberNo) {
+		return memberRepository.findByMemberNo(memberNo);
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Member findMember = memberRepository.findByMemberId(memberId).get();
@@ -47,7 +65,7 @@ public class MemberService implements UserDetailsService {
         }
         
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("ADMIN".equals(findMember.getMemberRole().name())) {
+        if(findMember.getMemberRole().name().equals("ADMIN")) {
             authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         } 
         else {
@@ -56,13 +74,9 @@ public class MemberService implements UserDetailsService {
         
         return new User(findMember.getMemberId(), findMember.getMemberPw(), authorities);
 	}
-	
-	public Optional<Member> findByMemberId(String memberId) {
-		return memberRepository.findByMemberId(memberId);
-	}
-	
-	public Optional<Member> findByMemberName(String memberName) {
-		return memberRepository.findByMemberName(memberName);
+
+	public void deleteMember(Member member) {
+		memberRepository.delete(member);
 	}
 	
 }

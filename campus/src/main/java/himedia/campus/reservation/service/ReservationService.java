@@ -2,6 +2,7 @@ package himedia.campus.reservation.service;
 
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +40,18 @@ public class ReservationService {
 		
 		return reservation.getReservationId();
 	}
+	
+	public Optional<Reservation> findByReservationId(Long reservationId) {
+		return reservationRepository.findByReservationId(reservationId);
+	}
+	
+	public void updateReservationStatus(Long reservationId, ReservationStatus reservationStatus) {
+		Reservation reservation = reservationRepository.findByReservationId(reservationId).get();
+		reservation.updateReservationStatus(reservationStatus);
+	}
+
+//	public void deleteReservation(Reservation reservation) {
+//		reservationRepository.delete(reservation);
+//	}
 	
 }

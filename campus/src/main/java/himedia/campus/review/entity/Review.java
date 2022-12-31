@@ -1,5 +1,9 @@
 package himedia.campus.review.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,10 +11,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.modelmapper.ModelMapper;
 
 import himedia.campus.member.entity.Member;
+import himedia.campus.reservation.entity.Reservation;
 import himedia.campus.review.dto.ReviewDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +26,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@DynamicInsert
 public class Review {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +35,19 @@ public class Review {
 	private String reviewTitle;
 	private String reviewContent;
 	private String reviewWriter;
+	@ColumnDefault("0")
 	private Integer reviewViews;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
 	private Member member;
+	
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    private List<ReviewImg> reviewImgs = new ArrayList<>();
+	
+	public void updateReviewViews(Integer views) {
+		this.reviewViews = views;
+	}
 	
 	public void updateReview(ReviewDto reviewDto) {
 		this.reviewTitle =  reviewDto.getReviewTitle();

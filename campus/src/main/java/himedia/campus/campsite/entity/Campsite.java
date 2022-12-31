@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.modelmapper.ModelMapper;
 
 import himedia.campus.campsite.dto.CampsiteDto;
+import himedia.campus.member.entity.Member;
 import himedia.campus.reservation.entity.Reservation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +46,10 @@ public class Campsite {
 	private String campsiteFacilitie;
 	private String campsiteTheme;
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_no")
+	private Member member;
+	
     @OneToMany(mappedBy = "campsite")
     private List<CampsiteImg> campsiteImgs = new ArrayList<>();
     

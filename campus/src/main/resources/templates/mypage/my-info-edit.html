@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <h1>내 정보</h1>
+  <h1>내 정보 수정</h1>
   <ul>
   	<li>
   	  <a th:href="@{/my-page}">내 정보</a>
@@ -26,27 +26,31 @@
   	  <a th:href="@{/admin/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">예약 관리</a>
   	</li>
   </ul>
-  <table>
-    <tbody>
-      <tr>
-        <th>아이디</th>
-        <td th:text="${memberDto.memberId}"></td>
-      </tr>
-      <tr>
-        <th>이름</th>
-        <td th:text="${memberDto.memberName}"></td>
-      </tr>
-      <tr>
-        <th>전화번호</th>
-        <td th:text="${memberDto.memberPhone}"></td>
-      </tr>
-      <tr>
-        <th>나이</th>
-        <td th:text="${memberDto.memberAge}"></td>
-      </tr>
-    </tbody>
-  </table>
-  <input type="button" th:onclick="|location.href='@{/my-page/my-info}'|" value="회원정보 수정">
+  
+  <form th:action th:method="put" th:object="${memberDto}">
+  	<div>
+  	  <label>아이디</label>
+  	  <input type="text" th:field="*{memberId}" readonly>
+  	</div>
+  	<div>
+  	  <label>이름</label>
+  	  <input type="text" th:field="*{memberName}">
+  	</div>
+  	<div>
+  	  <label>전화번호</label>
+  	  <input type="text" th:field="*{memberPhone}">
+  	</div>
+  	<div>
+  	  <label>나이</label>
+  	  <input type="number" th:field="*{memberAge}">
+  	</div>
+    <input type="submit" value="수정">
+    <input type="button" th:onclick="|location.href='@{/my-page}'|" value="취소">
+  </form>
+  
+  <form th:action th:method="delete">
+    <input type="submit" value="회원탈퇴">
+  </form>
 </body>
 
 </html>

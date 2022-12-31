@@ -24,20 +24,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-	        .mvcMatchers("/**").permitAll()
-	        .mvcMatchers("/admin/**").hasRole("ADMIN")
-	        .anyRequest().authenticated();
-    	
-        http.formLogin()
-                .loginPage("/member/login")
-                .defaultSuccessUrl("/")
-                .usernameParameter("memberId")
-                .passwordParameter("memberPw")
+        	.mvcMatchers("/admin/**").hasRole("ADMIN")
+        	.mvcMatchers("/**").permitAll()
+        	.anyRequest().authenticated()
+        	.and()
+	        .formLogin()
+            .loginPage("/member/login")
+            .defaultSuccessUrl("/")
+            .usernameParameter("memberId")
+            .passwordParameter("memberPw")
+            .permitAll()
             .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true);
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+            .logoutSuccessUrl("/")
+            .invalidateHttpSession(true);
         return http.build();
     }
 

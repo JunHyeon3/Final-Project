@@ -78,6 +78,8 @@ public class ReviewController {
 			boolean isWriter = memberService.findByMemberId(principal.getName()).get().getReviews().contains(review);
 			model.addAttribute("isWriter", isWriter);
 		}
+		
+		reviewService.updateViews(review, review.getReviewViews()+1);
 		return "review/review";
 	}
 	

@@ -26,7 +26,7 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final ReviewImgService reviewImgService;
 	private final MemberService memberService;
-
+	
 	public Long saveReview(ReviewDto reviewDto, List<MultipartFile> reviewImgFiles) throws Exception {
 		Review review = reviewDto.toEntity();
 		Member member = memberService.findByMemberName(reviewDto.getReviewWriter()).get();
@@ -40,6 +40,10 @@ public class ReviewService {
 		}
 		
 		return review.getReviewId();
+	}
+	
+	public void updateViews(Review review, Integer views) {
+		review.updateReviewViews(views);
 	}
 
 	public Long updateReview(ReviewDto reviewDto, List<MultipartFile> reviewImgs) throws Exception {

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 
 import himedia.campus.campsite.entity.Campsite;
 import himedia.campus.member.entity.Member;
+import himedia.campus.reservation.dto.ReservationDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,4 +42,9 @@ public class Reservation {
 	@JoinColumn(name = "campsite_id")
 	private Campsite campsite;
 
+	public void updateReservationStatus(ReservationStatus reservationStatus) {
+		this.reservationStatus = reservationStatus;
+	}
+	
+	
 }

@@ -11,6 +11,8 @@ import himedia.campus.campsite.dto.CampsiteDto;
 import himedia.campus.campsite.entity.Campsite;
 import himedia.campus.campsite.entity.CampsiteImg;
 import himedia.campus.campsite.repository.CampsiteRepository;
+import himedia.campus.member.entity.Member;
+import himedia.campus.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,18 +22,21 @@ public class CampsiteService {
 
 	private final CampsiteRepository campsiteRepository;
 	private final CampsiteImgService campsiteImgService;
+	private final MemberRepository memberRepository;
 	
-	public Long saveCampsite(CampsiteDto campsiteDto, 
+	public Long saveCampsite(CampsiteDto campsiteDto, String memberId,
 							List<String> campsiteEnvironment,
 							List<String> campsiteFacilitie, 
 							List<String> campsiteTheme,
 							List<MultipartFile> campsiteImgFiles) throws Exception {
+		Member findMember = memberRepository.findByMemberId(memberId).get();
+		campsiteDto.setCampsiteManager(findMember.getMemberName());
 		campsiteDto.setCampsiteEnvironment(String.join(", ", campsiteEnvironment));
 		campsiteDto.setCampsiteFacilitie(String.join(", ", campsiteFacilitie));
 		campsiteDto.setCampsiteTheme(String.join(", ", campsiteTheme));
 		
 		Campsite campsite = campsiteDto.toEntity();
-		
+		campsite.setMember(findMember);
 		campsiteRepository.save(campsite);
 		
 		for(int i=0; i<campsiteImgFiles.size(); i++) {
@@ -76,10 +81,6 @@ public class CampsiteService {
 		campsiteRepository.delete(campsite);
 	}
 	
-	public Optional<Campsite> findByCampsiteManager(String campsiteManager) {
-		return campsiteRepository.findByCampsiteManager(campsiteManager);
-	}
-
 	public Optional<Campsite> findByCampsiteId(Long campsiteId) {
 		return campsiteRepository.findByCampsiteId(campsiteId);
 	}

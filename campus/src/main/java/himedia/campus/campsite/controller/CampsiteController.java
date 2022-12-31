@@ -48,14 +48,14 @@ public class CampsiteController {
 	
 	@GetMapping("/admin/campsites")
 	public String campsiteForm(Principal principal, Model model) {
-		Optional<Campsite> existCampsite = campsiteService.findByCampsiteManager(principal.getName());
+		Campsite existCampsite = memberService.findByMemberId(principal.getName()).get().getCampsite();
 		
-		if(existCampsite.isEmpty()) {
+		if(existCampsite == null) {
 			model.addAttribute("campsiteDto", new CampsiteDto());
 			return "campsite/campsiteForm";
 		}
 		else {
-			model.addAttribute("existCampsite", Campsite.toDto(existCampsite.get()));
+			model.addAttribute("existCampsite", Campsite.toDto(existCampsite));
 			return "campsite/campsiteEdit";
 		}
 	}
@@ -68,12 +68,9 @@ public class CampsiteController {
 								@RequestParam List<MultipartFile> campsiteImgFiles,
 								Model model, Principal principal) {
 		try {
-			Member findMember = memberService.findByMemberId(principal.getName()).get();
-			campsiteDto.setCampsiteManager(findMember.getMemberName());
-			
-			campsiteService.saveCampsite(campsiteDto, campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
+			campsiteService.saveCampsite(campsiteDto, principal.getName(), campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
 		} catch (Exception e) {
-			model.addAttribute("errorMessage", "상품 등록 중 에러가 발생하였습니다.");
+			model.addAttribute("errorMessage", "캠핑장 등록 중 에러가 발생하였습니다.");
             return "campsite/campsiteForm";
 		}
 		

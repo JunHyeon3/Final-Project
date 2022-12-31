@@ -3,6 +3,7 @@ package himedia.campus.member.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,9 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import himedia.campus.campsite.entity.Campsite;
 import himedia.campus.member.dto.MemberDto;
 import himedia.campus.reservation.entity.Reservation;
 import himedia.campus.review.entity.Review;
@@ -38,10 +42,13 @@ public class Member {
 	
 	private Integer memberAge;
 	
-    @OneToMany(mappedBy = "member")
+	@OneToOne(mappedBy = "member")
+	private Campsite campsite;
+	
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Reservation> reservations = new ArrayList<>();
     
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
 	public static Member create(MemberDto memberDto, PasswordEncoder encoder) {
@@ -55,4 +62,15 @@ public class Member {
 		return member;
 	}
 	
+	public void updateMember(MemberDto memberDto) {
+		this.memberName = memberDto.getMemberName();
+		this.memberPhone = memberDto.getMemberPhone();
+		this.memberAge = memberDto.getMemberAge();
+	}
+	
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	public static MemberDto toDto(Member member) {
+		return modelMapper.map(member, MemberDto.class);
+	}
 }

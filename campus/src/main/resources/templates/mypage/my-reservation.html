@@ -1,46 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+
 <body>
   <h1>예약 정보</h1>
-  <table>
-    <tbody>
-      <tr>
-        <th>
-          <div style="width: 150px; height: 150px; background-color: yellow;">캠핑장 썸네일1</div>
-        </th>
-        <td>
-          <ul>
-            <li>캠핑장 이름</li>
-            <li>예약자 명</li>
-            <li>이용 날짜</li>
-            <li>인원 수</li>
-            <li>예약 상태</li>
-          </ul>
-        </td>
-        <td><input type="button" value="예약 취소"></td>
-      </tr>
-      <tr>
-        <th>
-          <div style="width: 150px; height: 150px; background-color: yellow;">캠핑장 썸네일2</div>
-        </th>
-        <td>
-          <ul>
-            <li>캠핑장 이름</li>
-            <li>예약자 명</li>
-            <li>이용 날짜</li>
-            <li>인원 수</li>
-            <li>예약 상태</li>
-          </ul>
-        </td>
-        <td><input type="button" value="예약 취소"></td>
-      </tr>
-    </tbody>
-  </table>
+
+  <ul>
+    <li>
+      <a th:href="@{/my-page}">내 정보</a>
+    </li>
+    <li sec:authorize="hasAnyAuthority('ROLE_USER')">
+      <a th:href="@{#}">관심 캠핑장</a>
+    </li>
+    <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+      <a th:href="@{/admin/campsites}">캠핑장 등록/관리</a>
+    </li>
+    <li>
+      <a th:href="@{/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_USER')">예약 조회</a>
+      <a th:href="@{/admin/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">예약 관리</a>
+    </li>
+  </ul>
+
+  <div th:each="reservation: ${reservations}">
+    <img alt="이미지 없음" th:src="@{${reservation.getCampsite().getCampsiteMainImgPath()}}" style="height:150px">
+    <ul>
+      <li>캠핑장 이름 :
+        <span th:text="${reservation.getCampsite().getCampsiteName()}"></span>
+      </li>
+      <li>
+        예약자 명 :
+        <span th:text="${reservation.getMember().getMemberName()}"></span>
+      </li>
+      <li>
+        이용 날짜 :
+        <span th:text="|${reservation.checkinDate}~${reservation.checkoutDate}|"></span>
+      </li>
+      <li>
+        인원 수 :
+        <span th:text="${reservation.headCount}"></span>
+      </li>
+      <li>
+        결제 금액 :
+        <span th:text="${reservation.totalPrice}"></span>
+      </li>
+      <li>
+        예약 상태 :
+        <span th:text="${reservation.reservationStatus.getValue()}"></span>
+      </li>
+    </ul>
+    <div th:if="${reservation.getReservationStatus().name()} == 'WAITING'" sec:authorize="hasAnyAuthority('ROLE_USER')">
+      <form th:action="@{|/my-page/reservation/${reservation.reservationId}|}" th:method="delete">
+        <input type="submit" value="예약 취소">
+      </form>
+    </div>
+    <div th:if="${reservation.getReservationStatus().name()} == 'WAITING'" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+          <form th:action="@{|/admin/my-page/reservation/${reservation.reservationId}|}" th:method="put">
+            <input type="submit" value="예약 승인">
+          </form>
+          <form th:action="@{|/admin/my-page/reservation/${reservation.reservationId}|}" th:method="delete">
+            <input type="submit" value="예약 취소">
+          </form>
+    </div>
+  </div>
 </body>
+
 </html>
