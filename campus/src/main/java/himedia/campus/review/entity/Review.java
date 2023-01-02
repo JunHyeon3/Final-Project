@@ -18,7 +18,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.modelmapper.ModelMapper;
 
 import himedia.campus.member.entity.Member;
-import himedia.campus.reservation.entity.Reservation;
 import himedia.campus.review.dto.ReviewDto;
 import lombok.Getter;
 import lombok.Setter;

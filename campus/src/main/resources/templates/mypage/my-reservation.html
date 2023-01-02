@@ -16,7 +16,7 @@
       <a th:href="@{/my-page}">내 정보</a>
     </li>
     <li sec:authorize="hasAnyAuthority('ROLE_USER')">
-      <a th:href="@{#}">관심 캠핑장</a>
+      <a th:href="@{/my-page/favorite}">관심 캠핑장</a>
     </li>
     <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
       <a th:href="@{/admin/campsites}">캠핑장 등록/관리</a>

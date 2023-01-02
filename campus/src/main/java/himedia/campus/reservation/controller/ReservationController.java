@@ -31,8 +31,8 @@ public class ReservationController {
 	@GetMapping("/reservation/{campsiteId}")
 	public String reservationForm(@PathVariable Long campsiteId, Model model, Principal principal) {
 		if(principal != null) {
-			Campsite resevationCampsite = campsiteService.findByCampsiteId(campsiteId).get();
-			model.addAttribute("resevationCampsite", resevationCampsite);
+			Campsite reservationCampsite = campsiteService.findByCampsiteId(campsiteId).get();
+			model.addAttribute("reservationCampsite", reservationCampsite);
 			model.addAttribute("reservationDto", new ReservationDto());
 			return "reservation/reservation";
 		}

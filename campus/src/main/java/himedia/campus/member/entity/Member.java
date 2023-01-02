@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import himedia.campus.campsite.entity.Campsite;
+import himedia.campus.campsite.entity.FavoriteCampsite;
 import himedia.campus.member.dto.MemberDto;
 import himedia.campus.reservation.entity.Reservation;
 import himedia.campus.review.entity.Review;
@@ -44,6 +45,9 @@ public class Member {
 	
 	@OneToOne(mappedBy = "member")
 	private Campsite campsite;
+	
+	@OneToMany(mappedBy = "member")
+	private List<FavoriteCampsite> favoriteCampsite;
 	
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Reservation> reservations = new ArrayList<>();

@@ -1,45 +1,41 @@
 <!DOCTYPE html>
-<html>
-
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="EUC-KR">
-  <title>Insert title here</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<script src="https://kit.fontawesome.com/ab2917a7ab.js"
+	crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <h1>관심 캠핑장</h1>
-  <table>
-    <tbody>
-      <tr>
-        <td>
-          <div style="width: 150px; height: 150px; background-color: yellow;"></div>
-          캠핑장1
-        </td>
-        <td>
-          <div style="width: 150px; height: 150px; background-color: yellow;"></div>
-          캠핑장2
-        </td>
-        <td>
-          <div style="width: 150px; height: 150px; background-color: yellow;"></div>
-          캠핑장3
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div style="width: 150px; height: 150px; background-color: yellow;"></div>
-          캠핑장4
-        </td>
-        <td>
-          <div style="width: 150px; height: 150px; background-color: yellow;"></div>
-          캠핑장5
-        </td>
-        <td>
-          <div style="width: 150px; height: 150px; background-color: yellow;"></div>
-          캠핑장6
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</body>
+	<h1>관심 캠핑장</h1>
+	<ul>
+		<li>
+			<a th:href="@{/my-page}">내 정보</a>
+		</li>
+		<li sec:authorize="hasAnyAuthority('ROLE_USER')">
+			<a th:href="@{/my-page/favorite}">관심 캠핑장</a>
+		</li>
+		<li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+			<a th:href="@{/admin/campsites}">캠핑장 등록/관리</a>
+		</li>
+		<li>
+			<a th:href="@{/my-page/reservation}"
+				sec:authorize="hasAnyAuthority('ROLE_USER')">예약 조회</a> 
+			<a th:href="@{/admin/my-page/reservation}"
+				sec:authorize="hasAnyAuthority('ROLE_ADMIN')">예약 관리</a>
+		</li>
+	</ul>
 
+	<div th:each="campsite: ${favoriteCampsites}">
+	  <span th:text="${campsite.campsiteName}"></span>	
+      <img th:src="@{${campsite.campsiteMainImgPath}}" style="width: 150px; height: 150px;"/>
+      <form th:action="@{|/my-page/favorite/${campsite.campsiteId}|}" th:method="delete">
+        <button type="submit"><i class="fa-solid fa-heart" style="color:red"></i></button>
+      </form>
+	</div>
+</body>
 </html>

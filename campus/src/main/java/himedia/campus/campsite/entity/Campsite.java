@@ -55,6 +55,9 @@ public class Campsite {
     
     @OneToMany(mappedBy = "campsite")
     private List<Reservation> reservations = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "campsite")
+    private List<FavoriteCampsite> favoriteCampsites = new ArrayList<>();
 	
 	public void updateCampsiteMainImg(String campsiteMainImgPath) {
 		this.campsiteMainImgPath = campsiteMainImgPath;

@@ -3,6 +3,8 @@ package himedia.campus.campsite.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,8 +87,12 @@ public class CampsiteService {
 		return campsiteRepository.findByCampsiteId(campsiteId);
 	}
 	
-	public List<Campsite> findAllCampsite() {
-		return campsiteRepository.findAll();
+	public Page<Campsite> pageList(Pageable pageable) {
+		return campsiteRepository.findAll(pageable);
+	}
+
+	public Page<Campsite> findByEnviornmentAndTheme(String campsiteEnvironment, String campsiteTheme, Pageable pageable) {
+		return campsiteRepository.findByCampsiteEnvironmentContainingAndCampsiteThemeContaining(campsiteEnvironment, campsiteTheme, pageable);
 	}
 	
 }

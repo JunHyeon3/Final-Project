@@ -4,19 +4,34 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+	function input() {
+		var campsitePrice = /*[[${reservationCampsite.campsitePrice}]]*/'0';
+		
+		var checkinDate = document.getElementById("checkinDate").value.split('-');
+		var checkoutDate = document.getElementById("checkoutDate").value.split('-');
+		var day1 = new Date(checkinDate[0], checkinDate[1], checkinDate[2]);
+		var day2 = new Date(checkoutDate[0], checkoutDate[1], checkoutDate[2]);
+		var days = (day2 - day1) / (24 * 60 * 60 * 1000) + 1;
+		
+		document.getElementById("totalPrice").value = days * campsitePrice;
+	}
+	/*]]>*/ 
+</script>
 </head>
 <body>
   <h1>예약 하기</h1>
-  <div th:text="${resevationCampsite.campsiteName}"></div>
-  <img th:src="${resevationCampsite.campsiteMainImgPath}" style="height: 300px;">
+  <div th:text="${reservationCampsite.campsiteName}"></div>
+  <img th:src="${reservationCampsite.campsiteMainImgPath}" style="height: 300px;">
   <form th:action th:method="post" th:object="${reservationDto}">
     <div>
       입실일 :
-      <input type="date" th:field="*{checkinDate}">
+      <input type="date" th:field="*{checkinDate}" onchange="input()">
     </div>
     <div>
       퇴실일 :
-      <input type="date" th:field="*{checkoutDate}">
+      <input type="date" th:field="*{checkoutDate}" onchange="input()">
     </div>
     <div>
       인원 수 :
@@ -24,7 +39,7 @@
     </div>
     <div>
       결제 금액 :
-      <input type="text" th:field="*{totalPrice}">
+      <input type="text" th:field="*{totalPrice}" value="0">
     </div>
     <input type="submit" value="예약하기">
   </form>

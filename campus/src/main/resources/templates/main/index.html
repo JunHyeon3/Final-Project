@@ -5,6 +5,21 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<script th:inline="javascript">
+    function input() {
+        var sdd = document.getElementById("checkinDate").value;
+        var edd = document.getElementById("checkoutDate").value;
+        var ar1 = sdd.split('-');
+        var ar2 = edd.split('-');
+        var da1 = new Date(ar1[0], ar1[1], ar1[2]);
+        var da2 = new Date(ar2[0], ar2[1], ar2[2]);
+        var dif = da2 - da1;
+        var cDay = dif / (24 * 60 * 60 * 1000);
+        alert(sdd);
+        alert(edd);
+        alert(cDay);
+    }
+	</script>
 </head>
 
 <body>

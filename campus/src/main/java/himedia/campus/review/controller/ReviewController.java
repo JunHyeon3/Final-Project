@@ -42,7 +42,8 @@ public class ReviewController {
 		Page<Review> reviewList = null;
 		if(searchCampsite != null) {
 			reviewList = reviewService.findBySearchCampsite(searchCampsite, pageable);
-		} else {
+		} 
+		else {
 			reviewList = reviewService.pageList(pageable);
 		}
 		
