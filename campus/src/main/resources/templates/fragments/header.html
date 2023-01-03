@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<header th:fragment="header" class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between">
+  <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+    <img th:src="@{/img/logo.png}" alt="로고" />
+  </a>
+  <ul id="nav-menu" class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li>
+      <a th:href="@{/campsites}" class="nav-link px-2 link-dark">캠핑장 소개</a>
+    </li>
+    <li>
+      <a th:href="@{/reviews}" class="nav-link px-2 link-dark">리뷰 게시판</a>
+    </li>
+    <li>
+      <a th:href="@{/my-page}" class="nav-link px-2 link-dark">마이페이지</a>
+    </li>
+  </ul>
+  <div class="col-md-3 text-end">
+    <ul id="nav-mem" class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li>
+        <a th:href="@{/member/login}" sec:authorize="isAnonymous()" class="nav-link px-2 link-dark">로그인</a>
+      </li>
+      <li>
+        <a th:href="@{/member/join}" sec:authorize="isAnonymous()" class="nav-link px-2 link-dark">회원가입</a>
+      </li>
+      <li>
+        <span sec:authentication="name" sec:authorize="isAuthenticated()" class="nav-link px-2 link-dark"></span>
+      </li>
+      <li>
+        <a th:href="@{/member/logout}" sec:authorize="isAuthenticated()" class="nav-link px-2 link-dark">로그아웃</a>
+      </li>
+    </ul>
+  </div>
+</header>

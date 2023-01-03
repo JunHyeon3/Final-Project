@@ -1,40 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
+  
+<title>CampUs</title>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<script th:inline="javascript">
-    function input() {
-        var sdd = document.getElementById("checkinDate").value;
-        var edd = document.getElementById("checkoutDate").value;
-        var ar1 = sdd.split('-');
-        var ar2 = edd.split('-');
-        var da1 = new Date(ar1[0], ar1[1], ar1[2]);
-        var da2 = new Date(ar2[0], ar2[1], ar2[2]);
-        var dif = da2 - da1;
-        var cDay = dif / (24 * 60 * 60 * 1000);
-        alert(sdd);
-        alert(edd);
-        alert(cDay);
-    }
-	</script>
-</head>
+  
+<section>
+   <div id="bg-video">
+    <video autoplay muted loop>
+      <source src="../img/pexels-rodnae-productions-8230707.mp4" type="video/mp4"/>
+    </video>
+  </div>
+</section>
 
-<body>
-	<h1>메인화면</h1>
-	<ul>
-		<li><a th:href="@{/campsites}">캠핑장 소개</a></li>
-		<li><a th:href="@{/reviews}">리뷰 게시판</a></li>
-		<li><a th:href="@{/my-page}">마이페이지</a></li>
-	</ul>
-	<ul>
-		<li><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></li>
-		<li><span sec:authorize="isAuthenticated()" sec:authentication="name"></span></li>
-		<li><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
-		<li><a th:href="@{/member/join}">회원가입</a></li>
-	</ul>
-</body>
-
-</html>
