@@ -1,5 +1,79 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
+
+<title>리뷰 게시판</title>
+
+<section>
+	<div class="w-75 p-3 m-auto">
+		<form th:action="@{/reviews/search}" th:method="get" class="d-flex justify-content-end">
+			<div class="row">
+				<div class="input-group mb-3">
+					<input class="form-control" type="search" name="searchCampsite" placeholder="캠핑장을 입력하세요..."> 
+					<input class="btn btn-outline-secondary" type="submit" value="검색"> 
+				</div>
+			</div>
+		</form>
+	
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">글 번호</th>
+					<th scope="col">이용 캠핑장</th>
+					<th scope="col">글 제목</th>
+					<th scope="col">작성자</th>
+					<th scope="col">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="review: ${reviews}">
+					<th scope="row"><a
+						th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}"
+						th:text="${review.reviewId}"></a></th>
+					<td><a
+						th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}"
+						th:text="${review.reviewCampsite}"></a></td>
+					<td><a
+						th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}"
+						th:text="${review.reviewTitle}"></a></td>
+					<td><a
+						th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}"
+						th:text="${review.reviewWriter}"></a></td>
+					<td th:text="${review.reviewViews}"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div class="d-flex justify-content-end">
+			<input type="button" class="btn btn-success"
+				th:onclick="|location.href='@{/reviews/post}'|" value="리뷰 등록">
+		</div>
+		
+		<nav aria-label="..." class="d-flex justify-content-center py-4">
+			<ul class="pagination">
+				<li class="page-item"
+					th:classappend="${startPage==nowPage} ? 'disabled' : ''"><a
+					th:href="(${searchCampsite}==null)? @{/reviews(page=${nowPage-2})} : @{/reviews(page=${nowPage-2}, searchCampsite=${searchCampsite})}"
+					class="page-link">이전</a></li>
+	
+				<li class="page-item"
+					th:each="page:${#numbers.sequence(startPage,endPage)}"
+					th:classappend="${page==nowPage} ? 'active' : ''"><a
+					class="page-link"
+					th:href="(${searchCampsite}==null)?@{/reviews(page=${page-1})} : @{/reviews(page=${page-1}, searchCampsite=${searchCampsite})}"
+					th:text="${page}"></a></li>
+	
+				<li class="page-item"
+					th:classappend="${endPage==nowPage} ? 'disabled' : ''"><a
+					th:href="(${searchCampsite}==null)? @{/reviews(page=${nowPage})} : @{/reviews(page=${nowPage}, searchCampsite=${searchCampsite})}"
+					class="page-link" href="#">다음</a></li>
+			</ul>
+		</nav>
+	</div>
+</section>
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8" />
@@ -11,39 +85,5 @@
   <body>
     <h1>리뷰 목록</h1>
 
-	<form th:action="@{/reviews/search}" th:method="get">
-	  검색 
-	  <input type="search" name="searchCampsite" placeholder="검색할 캠핑장을 입력하세요...">
-	  <input type="submit" value="검색">
-	  <input type="button" th:onclick="|location.href='@{/reviews}'|" value="전체보기">
-	</form>
-
-    <table style="border-collapse: 1px solid black">
-      <tr>
-        <th>번호</th>
-        <th>캠핑장</th>
-        <th>제목</th>
-        <th>작성자</th>	
-        <th>조회수</th>
-      </tr>
-      <tr th:each="review: ${reviews}">
-        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewId}"></a></td>        
-        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewCampsite}"></a></td>        
-        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewTitle}"></a></td>        
-        <td><a th:href="@{/reviews/{reviewId}(reviewId=${review.reviewId})}" th:text="${review.reviewWriter}"></a></td>        
-        <td th:text="${review.reviewViews}"></td>        
-      </tr>
-    </table>
-    
-    <a th:if="${startPage!=nowPage}" th:href="${searchCampsite}? @{/reviews(page=${nowPage-2}, searchCampsite=${searchCampsite})} : @{/reviews(page=${nowPage-2})}">이전</a>
-    <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
-      <a th:if="${page != nowPage}" th:href="${searchCampsite}? @{/reviews(page=${page-1}, searchCampsite=${searchCampsite})} : @{/reviews(page=${page-1})}" th:text ="${page}"></a>
-      <strong th:unless="${page != nowPage}" th:text ="${page}" style="color:red"></strong>
-    </th:block>
-    <a th:if="${endPage!=nowPage}" th:href="${searchCampsite}? @{/reviews(page=${nowPage}, searchCampsite=${searchCampsite})} : @{/reviews(page=${nowPage})}">다음</a>
-    
-    <br>
-
-    <input type="button" th:onclick="|location.href='@{/reviews/post}'|" value="리뷰 등록">
   </body>
-</html>
+</html> -->

@@ -13,7 +13,7 @@
 		var checkoutDate = document.getElementById("checkoutDate").value.split('-');
 		var day1 = new Date(checkinDate[0], checkinDate[1], checkinDate[2]);
 		var day2 = new Date(checkoutDate[0], checkoutDate[1], checkoutDate[2]);
-		var days = (day2 - day1) / (24 * 60 * 60 * 1000) + 1;
+		var days = (day2 - day1) / (24 * 60 * 60 * 1000);
 		
 		document.getElementById("totalPrice").value = days * campsitePrice;
 	}

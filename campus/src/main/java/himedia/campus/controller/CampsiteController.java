@@ -10,6 +10,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,17 +25,17 @@ import org.springframework.web.multipart.MultipartFile;
 import himedia.campus.dto.campsite.CampsiteDto;
 import himedia.campus.entity.campsite.Campsite;
 import himedia.campus.entity.campsite.CampsiteImg;
+import himedia.campus.entity.member.Member;
 import himedia.campus.service.MemberService;
 import himedia.campus.service.campsite.CampsiteImgService;
 import himedia.campus.service.campsite.CampsiteService;
 import himedia.campus.service.campsite.FavoriteService;
-import himedia.campus.vo.CampsiteEnvironment;
-import himedia.campus.vo.CampsiteFacilitie;
-import himedia.campus.vo.CampsiteTheme;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class CampsiteController {
 	
 	private final CampsiteService campsiteService;
@@ -42,22 +45,22 @@ public class CampsiteController {
 
 	@GetMapping("/campsites")
 	public String campsiteList(@PageableDefault(sort="campsiteId", direction = Sort.Direction.DESC) Pageable pageable, 
-								@RequestParam(required = false) String campsiteEnvironment,
-								@RequestParam(required = false) String campsiteTheme,
+								@RequestParam(required = false) String searchEnvironment,
+								@RequestParam(required = false) String searchTheme,
 								Model model, Principal principal) {
 		Page<Campsite> campsiteList = null;
-		if(campsiteEnvironment == null && campsiteTheme == null) {
+		if(searchEnvironment == null && searchTheme == null) {
 			campsiteList = campsiteService.pageList(pageable);
 		}
 		else {	
-			campsiteList = campsiteService.findByEnviornmentAndTheme(campsiteEnvironment, campsiteTheme, pageable);
+			campsiteList = campsiteService.findByEnviornmentAndTheme(searchEnvironment, searchTheme, pageable);
 		}
 		
 		int nowPage = campsiteList.getPageable().getPageNumber()+1;                                                                                                                                                                                                                                                                                                                                                                                                               ;
 		int startPage = 1;
 		int endPage = campsiteList.getTotalPages();
-		if(campsiteList.getTotalPages() >= 10) {
-			startPage =  Math.max(nowPage-5, 1);
+		if(campsiteList.getTotalPages() >= 9) {
+			startPage =  Math.max(nowPage-5, 0);
 			endPage = Math.min(nowPage+4, campsiteList.getTotalPages());
 			if(nowPage < 7) {
 				endPage = 10;
@@ -65,6 +68,8 @@ public class CampsiteController {
 		}
 		
         model.addAttribute("campsites", campsiteList);
+        model.addAttribute("searchEnv", searchEnvironment);
+        model.addAttribute("searchTheme", searchTheme);
         model.addAttribute("nowPage",nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
@@ -88,44 +93,57 @@ public class CampsiteController {
 		return "campsite/campsite";
 	}
 	
+	@PostMapping("/favorite/{campsiteId}")
+	public String favoriteAdd(@PathVariable Long campsiteId, Principal principal) {
+		Member member = memberService.findByMemberId(principal.getName()).get();
+		Campsite campsite = campsiteService.findByCampsiteId(campsiteId).get();
+		
+		favoriteService.addFavoriteCampsite(member, campsite);
+		return "redirect:/campsites";
+	}
+	
+	@DeleteMapping("/favorite/{campsiteId}")
+	public String favoriteDelete(@PathVariable Long campsiteId, Principal principal) {
+		Member member = memberService.findByMemberId(principal.getName()).get();
+		
+		favoriteService.deleteFavoriteCampsite(member.getMemberNo(), campsiteId);
+		return "redirect:/campsites";
+	}
+	
 	@GetMapping("/admin/campsites")
 	public String campsiteForm(Principal principal, Model model) {
 		Campsite existCampsite = memberService.findByMemberId(principal.getName()).get().getCampsite();
 		
 		if(existCampsite == null) {
 			model.addAttribute("campsiteDto", new CampsiteDto());
-			return "campsite/campsiteForm";
+			return "campsite/campsite-add";
 		}
 		else {
 			model.addAttribute("existCampsite", Campsite.toDto(existCampsite));
-			return "campsite/campsiteEdit";
+			return "campsite/campsite-edit";
 		}
 	}
 	
 	@PostMapping("/admin/campsites/new")
-	public String campsiteNew(CampsiteDto campsiteDto,
-								@RequestParam List<String> campsiteEnvironment,
-								@RequestParam List<String> campsiteFacilitie, 
-								@RequestParam List<String> campsiteTheme,
+	public String campsiteNew(@Validated CampsiteDto campsiteDto, BindingResult bindingResult,
+								@RequestParam(required = false) List<String> campsiteEnvironment,
+								@RequestParam(required = false) List<String> campsiteFacilitie, 
+								@RequestParam(required = false) List<String> campsiteTheme,
 								@RequestParam List<MultipartFile> campsiteImgFiles,
-								Model model, Principal principal) {
-		try {
-			campsiteService.saveCampsite(campsiteDto, principal.getName(), campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
-		} catch (Exception e) {
-			model.addAttribute("errorMessage", "캠핑장 등록 중 에러가 발생하였습니다.");
-            return "campsite/campsiteForm";
+								Model model, Principal principal) throws Exception {
+		if(bindingResult.hasErrors()) {
+			return "/campsite/campsite-add";
 		}
+		
+		campsiteService.saveCampsite(campsiteDto, principal.getName(), campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
 		
 		return "redirect:/";
 	}
 	
 	@PutMapping("/admin/campsites/{campsiteId}")
-	public String campsiteEdit(CampsiteDto campsiteDto,
-								@RequestParam List<String> campsiteEnvironment,
-								@RequestParam List<String> campsiteFacilitie, 
-								@RequestParam List<String> campsiteTheme,
+	public String campsiteEdit(CampsiteDto campsiteDto, 
 								@RequestParam List<MultipartFile> campsiteImgFiles) throws Exception {
-		campsiteService.updateCampsite(campsiteDto, campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
+		campsiteService.updateCampsite(campsiteDto, campsiteImgFiles);
 		return "redirect:/";
 	}
 	
@@ -139,44 +157,44 @@ public class CampsiteController {
 	}
 	
 	@ModelAttribute("campsiteEnvironments")
-	public List<CampsiteEnvironment> campsiteEnvironments() {
-		List<CampsiteEnvironment> campsiteEnvironments = new ArrayList<>();
-		campsiteEnvironments.add(new CampsiteEnvironment("MOUNTAIN", "산/숲"));
-		campsiteEnvironments.add(new CampsiteEnvironment("SEA", "바다"));
-		campsiteEnvironments.add(new CampsiteEnvironment("VALLEY", "계곡"));
-		campsiteEnvironments.add(new CampsiteEnvironment("RIVER", "강"));
-		campsiteEnvironments.add(new CampsiteEnvironment("CITY", "도심"));
-		campsiteEnvironments.add(new CampsiteEnvironment("ISLAND", "섬"));
+	public List<String> campsiteEnvironments() {
+		List<String> campsiteEnvironments = new ArrayList<>();
+		campsiteEnvironments.add("산/숲");
+		campsiteEnvironments.add("바다");
+		campsiteEnvironments.add("계곡");
+		campsiteEnvironments.add("강");
+		campsiteEnvironments.add("도심");
+		campsiteEnvironments.add("섬");
 		return campsiteEnvironments;
 	}
 	
 	@ModelAttribute("campsiteThemes")
-	public List<CampsiteTheme> campsiteThemes() {
-		List<CampsiteTheme> campsiteThemes = new ArrayList<>();
-		campsiteThemes.add(new CampsiteTheme("CAMPING", "캠핑"));
-		campsiteThemes.add(new CampsiteTheme("GLAMPING", "글램핑"));
-		campsiteThemes.add(new CampsiteTheme("CARAVAN", "카라반"));
-		campsiteThemes.add(new CampsiteTheme("CAR", "차박"));
-		campsiteThemes.add(new CampsiteTheme("PETS", "반려동물"));
-		campsiteThemes.add(new CampsiteTheme("KIDS", "키즈"));
-		campsiteThemes.add(new CampsiteTheme("FAMILY", "가족"));
-		campsiteThemes.add(new CampsiteTheme("COUPLE", "연인"));
+	public List<String> campsiteThemes() {
+		List<String> campsiteThemes = new ArrayList<>();
+		campsiteThemes.add("캠핑");
+		campsiteThemes.add("글램핑");
+		campsiteThemes.add("카라반");
+		campsiteThemes.add("차박");
+		campsiteThemes.add("반려동물");
+		campsiteThemes.add("키즈");
+		campsiteThemes.add("가족");
+		campsiteThemes.add("연인");
 		return campsiteThemes;
 	}
 	
 	@ModelAttribute("campsiteFacilities")
-	public List<CampsiteFacilitie> campsiteFacilities() {
-		List<CampsiteFacilitie> campsiteFacilities = new ArrayList<>();
-		campsiteFacilities.add(new CampsiteFacilitie("TOILET", "화장실"));
-		campsiteFacilities.add(new CampsiteFacilitie("SHOWER", "샤워실"));
-		campsiteFacilities.add(new CampsiteFacilitie("BARBECUE", "바베큐장"));
-		campsiteFacilities.add(new CampsiteFacilitie("PARKING", "개별 주차"));
-		campsiteFacilities.add(new CampsiteFacilitie("WARMER", "온난방기"));
-		campsiteFacilities.add(new CampsiteFacilitie("STORE", "매점"));
-		campsiteFacilities.add(new CampsiteFacilitie("POOL", "수영장"));
-		campsiteFacilities.add(new CampsiteFacilitie("LENTAL", "장비대여"));
-		campsiteFacilities.add(new CampsiteFacilitie("TABLEWARE", "식기류"));
-		campsiteFacilities.add(new CampsiteFacilitie("BEDDING", "침구류"));
+	public List<String> campsiteFacilities() {
+		List<String> campsiteFacilities = new ArrayList<>();
+		campsiteFacilities.add("화장실");
+		campsiteFacilities.add("샤워실");
+		campsiteFacilities.add("바베큐장");
+		campsiteFacilities.add("개별 주차");
+		campsiteFacilities.add("온난방기");
+		campsiteFacilities.add("매점");
+		campsiteFacilities.add("수영장");
+		campsiteFacilities.add("장비대여");
+		campsiteFacilities.add("식기류");
+		campsiteFacilities.add("침구류");
 		return campsiteFacilities;
 	}
 	

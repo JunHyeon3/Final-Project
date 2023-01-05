@@ -59,10 +59,6 @@ public class MemberService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Member findMember = memberRepository.findByMemberId(memberId).get();
-
-        if(findMember == null){
-            throw new UsernameNotFoundException("등록되지 않은 회원입니다.");
-        }
         
         List<GrantedAuthority> authorities = new ArrayList<>();
         if(findMember.getMemberRole().name().equals("ADMIN")) {

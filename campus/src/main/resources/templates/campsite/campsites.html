@@ -1,83 +1,117 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://kit.fontawesome.com/ab2917a7ab.js" crossorigin="anonymous"></script>
-  </head>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
 
-  <body>
-    <h1>캠핑장 소개</h1>
-    <div>
-    	<form th:action="@{/campsites}" th:method="get">
-			<div>
-				<label>환경</label>
-			</div>
-			<div>
-				<select name="campsiteEnvironment">
-					<option value="">환경 선택</option>
-					<option th:each="campsiteEnvironment: ${campsiteEnvironments}" th:value="${campsiteEnvironment.key}"
-							th:text="${campsiteEnvironment.value}"></option>
-				</select>
-			</div>
-			<div>
-				<label>테마</label>
-			</div>
-			<div>
-				<select name="campsiteTheme">
-					<option value="">테마 선택</option>
-					<option th:each="campsiteTheme: ${campsiteThemes}" th:value="${campsiteTheme.key}"
-							th:text="${campsiteTheme.value}"></option>
-				</select>
-			</div>
-			<input type="submit" value="검색">
-    	</form>
+<title>캠핑장 소개</title>
 
-      <hr />
+<section class="row">
+	<div id="left-side" class="col-3">
+		<form th:action="@{/campsites}" th:method="get">
+			<div class="row mt-5">
+				<div class="col-4 text-center">
+					<label>환경</label>
+				</div>
+				<div class="col">
+					<select name="searchEnvironment" class="form-select form-select"
+						aria-label=".form-select-sm example">
+						<option value="">환경 선택</option>
+						<option th:each="campsiteEnvironment: ${campsiteEnvironments}"
+							th:value="${campsiteEnvironment}"
+							th:text="${campsiteEnvironment}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-4 text-center">
+					<label>테마</label>
+				</div>
+				<div class="col">
+					<select name="searchTheme" class="form-select form-select"
+						aria-label=".form-select-sm example">
+						<option value="">테마 선택</option>
+						<option th:each="campsiteTheme: ${campsiteThemes}"
+							th:value="${campsiteTheme}" th:text="${campsiteTheme}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="text-center">
+				<input type="submit" class="btn btn-outline-success col-8"
+					value="검색">
+			</div>
+		</form>
+	</div>
 
-      <table th:each="campsite: ${campsites}">
-        <tr>
-          <th>
-            <a th:href="@{/campsites/{campsiteId}(campsiteId=${campsite.campsiteId})}">
-              <img th:src="@{${campsite.campsiteMainImgPath}}" style="width: 150px; height: 150px;"/>
-            </a>
-            <form th:if="${!@campsiteController.find(memberNo, campsite.campsiteId) and memberNo != null}" th:action="@{|/my-page/favorite/${campsite.campsiteId}|}" th:method="post">
-              <button type="submit"><i class="fa-regular fa-heart"></i></button>
-            </form>
-            <form th:if="${@campsiteController.find(memberNo, campsite.campsiteId)}" th:action="@{|/my-page/favorite/${campsite.campsiteId}|}" th:method="delete">
-              <button type="submit"><i class="fa-solid fa-heart" style="color:red"></i></button>
-            </form>
-          </th>
-          <td>
-            <ul>
-              <li>
-                캠핑장 이름 : <span th:text="${campsite.campsiteName}"></span>
-              </li>
-              <li>
-                캠핑장 주소 : <span th:text="${campsite.campsiteAddress}"></span>
-              </li>
-              <li>
-                캠핑장 연락처 : <span th:text="${campsite.campsiteTel}"></span>
-              </li>
-              <li>
-                캠핑장 이용요금 : <span th:text="|${campsite.campsitePrice} 원|"></span>
-              </li>
-              <li>
-                캠핑장 시설 : <span th:text="${campsite.campsiteFacilitie}"></span>
-              </li>
-            </ul>
-          </td>
-        </tr>
-      </table>
-      
-      <a th:if="${startPage!=nowPage}" th:href="${searchCampsite}? @{/reviews(page=${nowPage-2}, searchCampsite=${searchCampsite})} : @{/reviews(page=${nowPage-2})}">이전</a>
-    <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
-      <a th:if="${page != nowPage}" th:href="${searchCampsite}? @{/reviews(page=${page-1}, searchCampsite=${searchCampsite})} : @{/reviews(page=${page-1})}" th:text ="${page}"></a>
-      <strong th:unless="${page != nowPage}" th:text ="${page}" style="color:red"></strong>
-    </th:block>
-    <a th:if="${endPage!=nowPage}" th:href="${searchCampsite}? @{/reviews(page=${nowPage}, searchCampsite=${searchCampsite})} : @{/reviews(page=${nowPage})}">다음</a>
-    </div>
-  </body>
-</html>
+	<div id="content" class="col">
+		<div th:each="campsite: ${campsites}" class="campsites row my-3 position-relative">
+			<div class="col-4 text-center">
+				<a
+					th:href="@{/campsites/{campsiteId}(campsiteId=${campsite.campsiteId})}">
+						<img th:src="@{${campsite.campsiteMainImgPath}}" alt="이미지 없음" class="img-thumbnail border border-success campsite-main-img" />
+				</a>
+				<div class="position-absolute top-0 end-0">
+						<form
+							th:if="${!@campsiteController.find(memberNo, campsite.campsiteId) and memberNo != null}"
+							th:action="@{|/favorite/${campsite.campsiteId}|}"
+							th:method="post">
+							<button type="submit" class="btn btn-link btn-lg">
+								<i class="fa-regular fa-heart"></i>
+							</button>
+						</form>
+						<form
+							th:if="${@campsiteController.find(memberNo, campsite.campsiteId)}"
+							th:action="@{|/favorite/${campsite.campsiteId}|}"
+							th:method="delete">
+							<button type="submit" class="btn btn-link btn-lg">
+								<i class="fa-solid fa-heart" style="color: red"></i>
+							</button>
+						</form>
+				</div>
+			</div>
+			<div class="col">
+				<ul class="d-grid gap-3">
+					<li class="row">
+						<div class="col-3">캠핑장 이름</div> 
+						<div th:text="${campsite.campsiteName}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-3">캠핑장 주소</div> 
+						<div th:text="${campsite.campsiteAddress}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-3">캠핑장 연락처</div> 
+						<div th:text="${campsite.campsiteTel}" class="col"></div>
+					</li>
+					<li class="row">
+						<div  class="col-3">캠핑장 이용요금</div> 
+						<div th:text="|1박당 ${campsite.campsitePrice} 원|" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-3">캠핑장 편의시설</div> 
+						<div th:text="${campsite.campsiteFacilitie}" class="col"></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<nav aria-label="..." class="d-flex justify-content-center">
+			<ul class="pagination">
+				<li class="page-item"
+					th:classappend="${startPage==nowPage} ? 'disabled' : ''"><a
+					th:href="(${searchEnv}==null and ${searchTheme}==null)? @{/campsites(page=${nowPage-2})} : @{/campsites(page=${nowPage-2}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
+					class="page-link">이전</a></li>
+
+				<li class="page-item"
+					th:each="page:${#numbers.sequence(startPage,endPage)}"
+					th:classappend="${page==nowPage} ? 'active' : ''"><a
+					class="page-link"
+					th:href="(${searchEnv}==null and ${searchTheme}==null)? @{/campsites(page=${page-1})} : @{/campsites(page=${page-1}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
+					th:text="${page}"></a></li>
+
+				<li class="page-item"
+					th:classappend="${endPage==nowPage} ? 'disabled' : ''"><a
+					th:href="(${searchEnv}==null and ${searchTheme}==null)? @{/campsites(page=${nowPage})} : @{/campsites(page=${nowPage}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
+					class="page-link" href="#">다음</a></li>
+			</ul>
+		</nav>
+	</div>
+</section>

@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-  th:fragment="layout(title, container)">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	th:fragment="layout(title, container)">
 <head>
-  <title th:replace="${title}">타이틀</title>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+<title th:replace="${title}"></title>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/index.css}" />
+<script src="https://kit.fontawesome.com/ab2917a7ab.js"
+	crossorigin="anonymous"></script>
 </head>
 
 <body id="body">
-  <div th:replace="fragments/header::header">header 영역</div>
+	<div th:replace="fragments/header::header">header 영역</div>
 
-  <div th:insert="${container}" id="container" class="container-md" style="max-width: 1000px">content 영역</div>
+	<div th:insert="${container}" id="container" class="container-md"
+		style="max-width: 1200px">content 영역</div>
 
-  <div th:replace="fragments/footer::copy">footer 영역</div>
+	<div th:replace="fragments/footer::copy">footer 영역</div>
 </body>
 </html>

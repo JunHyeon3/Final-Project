@@ -1,52 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
+  
+<title>회원 정보</title>
+  
+<section class="row">
+	<th:block th:replace="fragments/left-side::side"></th:block>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <h1>내 정보</h1>
-  <ul>
-  	<li>
-  	  <a th:href="@{/my-page}">내 정보</a>
-  	</li>
-    <li sec:authorize="hasAnyAuthority('ROLE_USER')">
-      <a th:href="@{/my-page/favorite}">관심 캠핑장</a>
-    </li>
-    <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-      <a th:href="@{/admin/campsites}">캠핑장 등록/관리</a>
-    </li>
-  	<li>
-  	  <a th:href="@{/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_USER')">예약 조회</a>
-  	  <a th:href="@{/admin/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">예약 관리</a>
-  	</li>
-  </ul>
-  <table>
-    <tbody>
-      <tr>
-        <th>아이디</th>
-        <td th:text="${memberDto.memberId}"></td>
-      </tr>
-      <tr>
-        <th>이름</th>
-        <td th:text="${memberDto.memberName}"></td>
-      </tr>
-      <tr>
-        <th>전화번호</th>
-        <td th:text="${memberDto.memberPhone}"></td>
-      </tr>
-      <tr>
-        <th>나이</th>
-        <td th:text="${memberDto.memberAge}"></td>
-      </tr>
-    </tbody>
-  </table>
-  <input type="button" th:onclick="|location.href='@{/my-page/my-info}'|" value="회원정보 수정">
-</body>
-
-</html>
+	<div id="content" class="col-7">
+		<div class="input-group input-group-lg my-3 row">
+			<div class="input-group-text col-3" id="inputGroup-sizing-lg w-25">아이디</div>
+			<input type="text" class="form-control"
+				th:value="${memberDto.memberId}" readonly>
+		</div>
+		<div class="input-group input-group-lg my-3 row">
+			<span class="input-group-text col-3" id="inputGroup-sizing-lg">이름</span>
+			<input type="text" class="form-control"
+				th:value="${memberDto.memberName}" readonly>
+		</div>
+		<div class="input-group input-group-lg my-3 row">
+			<span class="input-group-text col-3" id="inputGroup-sizing-lg">전화번호</span>
+			<input type="text" class="form-control"
+				th:value="${memberDto.memberPhone}" readonly>
+		</div>
+		<div class="input-group input-group-lg my-3 row">
+			<span class="input-group-text col-3" id="inputGroup-sizing-lg">나이</span>
+			<input type="text" class="form-control"
+				th:value="${memberDto.memberAge}" readonly>
+		</div>
+		<div class="d-flex justify-content-center">
+		  <input type="button" th:onclick="|location.href='@{/my-page/put/my-info}'|" value="회원정보 수정" class="btn btn-outline-success">
+		</div>
+	</div>
+</section>

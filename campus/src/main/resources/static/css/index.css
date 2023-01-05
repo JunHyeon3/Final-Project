@@ -20,6 +20,11 @@ img, video {
 	vertical-align: top;
 }
 
+a {
+	text-decoration: none;
+	color: #000;
+}
+
 hr {
 	display: none;
 }
@@ -32,7 +37,24 @@ address, em {
 
 /* ************************************************************************* */
 /* header, footer */
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100vh;
+} 
+
+body::after {
+  content: '';
+  display: block;
+  height: 150px;
+}
+
 header {
+	background-color: beige;
+	margin-bottom: 70px;
+}
+
+header #nav-wrap {
 	max-width: 1000px;
 	margin: 0 auto;
 }
@@ -74,3 +96,15 @@ footer {
 }
 /* ************************************************************************* */
 
+/* ************************************************************************* */
+/* 캠핑장 소개 */
+#content .campsites {
+	border-top: 1px solid beige;
+	border-bottom: 1px solid beige;
+}
+/* ************************************************************************* */
+
+.campsite-main-img {
+	width: 200px;
+	height: 200px;
+}

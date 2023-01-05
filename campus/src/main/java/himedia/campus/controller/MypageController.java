@@ -55,6 +55,9 @@ public class MypageController {
 
 	@PutMapping("/my-page/put/my-info")
 	public String myInfoEdit(MemberDto memberDto) {
+		log.info("@@: "+ memberDto.getMemberName());
+		log.info("@@: "+ memberDto.getMemberPhone());
+		log.info("@@: "+ memberDto.getMemberAge());
 		memberService.updateMember(memberDto);
 		return "redirect:/my-page";
 	}
@@ -116,21 +119,12 @@ public class MypageController {
 		return "mypage/my-favorite";
 	}
 	
-	@PostMapping("/my-page/favorite/{campsiteId}")
-	public String favoriteAdd(@PathVariable Long campsiteId, Principal principal) {
-		Member member = memberService.findByMemberId(principal.getName()).get();
-		Campsite campsite = campsiteService.findByCampsiteId(campsiteId).get();
-		
-		favoriteService.addFavoriteCampsite(member, campsite);
-		return "redirect:/campsites";
-	}
-	
 	@DeleteMapping("/my-page/favorite/{campsiteId}")
 	public String favoriteDelete(@PathVariable Long campsiteId, Principal principal) {
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		
 		favoriteService.deleteFavoriteCampsite(member.getMemberNo(), campsiteId);
-		return "redirect:/campsites";
+		return "redirect:/my-page/favorite";
 	}
 	
 }

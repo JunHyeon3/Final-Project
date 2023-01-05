@@ -54,14 +54,7 @@ public class CampsiteService {
 	}
 	
 	public Long updateCampsite(CampsiteDto campsiteDto, 
-								List<String> campsiteEnvironment,
-								List<String> campsiteFacilitie, 
-								List<String> campsiteTheme,
 								List<MultipartFile> campsiteImgFiles) throws Exception {
-		campsiteDto.setCampsiteEnvironment(String.join(", ", campsiteEnvironment));
-		campsiteDto.setCampsiteFacilitie(String.join(", ", campsiteFacilitie));
-		campsiteDto.setCampsiteTheme(String.join(", ", campsiteTheme));
-		
 		Campsite findCampsite = campsiteRepository.findByCampsiteId(campsiteDto.getCampsiteId()).get();
 		findCampsite.updateCampsite(campsiteDto);
 		

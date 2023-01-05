@@ -1,6 +1,7 @@
 package himedia.campus.dto;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter @Setter
 public class MemberDto {
 	
+	@NotNull(message = "사용자/관리자 중 하나를 선택해주세요.")
 	private MemberRole memberRole;
 	
 	@NotEmpty(message = "ID는 필수 입력 항목입니다.")

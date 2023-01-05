@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>캠핑장 등록</h1>
+  <form th:action="@{/admin/campsites/new}" th:object="${campsiteDto}" th:method="post" enctype="multipart/form-data">
+    <div>
+      캠핑장 이름
+      <input type="text" th:field="*{campsiteName}">
+      <p th:errors="*{campsiteName}" class="text-danger"></p>
+    </div>
+    <div>
+      소개글
+      <textarea th:field="*{campsiteIntroduction}" cols="30" rows="10"></textarea>
+      <p th:errors="*{campsiteIntroduction}" class="text-danger"></p>
+    </div>
+    <div>
+      주소
+      <input type="text" th:field="*{campsiteAddress}">
+      <p th:errors="*{campsiteAddress}" class="text-danger"></p>
+    </div>
+    <div>
+      전화번호
+      <input type="text" th:field="*{campsiteTel}">
+      <p th:errors="*{campsiteTel}" class="text-danger"></p>
+    </div>
+
+    <div>
+      이용요금
+      <input type="number" th:field="*{campsitePrice}">원
+      <p th:errors="*{campsitePrice}" class="text-danger"></p>
+    </div>
+    <div>
+      최소 인원
+      <input type="number" th:field="*{campsiteMin}">
+      <p th:errors="*{campsiteMin}" class="text-danger"></p>
+    </div>
+    <div>
+      최대 인원
+      <input type="number" th:field="*{campsiteMax}">
+      <p th:errors="*{campsiteMax}" class="text-danger"></p>
+    </div>
+    <div>
+      입실 시간
+      <input type="number" th:field="*{campsiteCheckin}">
+      <p th:errors="*{campsiteCheckin}" class="text-danger"></p>
+    </div>
+    <div>
+      퇴실 시간
+      <input type="number" th:field="*{campsiteCheckout}">
+      <p th:errors="*{campsiteCheckout}" class="text-danger"></p>
+    </div>
+ 	<div>
+        환경
+		<div th:each="campsiteEnvironment: ${campsiteEnvironments}">
+			<input type="checkbox" th:field="*{campsiteEnvironment}" th:value="${campsiteEnvironment}">
+			<label th:for="${#ids.prev('campsiteEnvironment')}"
+					th:text="${campsiteEnvironment}"></label>
+		</div>
+		<p th:errors="*{campsiteEnvironment}" class="text-danger"></p>
+	</div>
+    <div>
+        편의시설
+		<div th:each="campsiteFacilitie: ${campsiteFacilities}">
+			<input type="checkbox" th:field="*{campsiteFacilitie}" th:value="${campsiteFacilitie}">
+			<label th:for="${#ids.prev('campsiteFacilitie')}"
+					th:text="${campsiteFacilitie}"></label>
+		</div>
+		<p th:errors="*{campsiteFacilitie}" class="text-danger"></p>
+	</div>
+    <div>
+	    테마
+		<div th:each="campsiteTheme: ${campsiteThemes}">
+			<input type="checkbox" th:field="*{campsiteTheme}" th:value="${campsiteTheme}">
+			<label th:for="${#ids.prev('campsiteTheme')}"
+					th:text="${campsiteTheme}">서울</label>
+		</div>
+		<p th:errors="*{campsiteTheme}" class="text-danger"></p>
+	</div>
+    <div>
+      이미지 <br>
+      <label >대표 이미지1</label>
+      <input type="file" name= "campsiteImgFiles"> <br>
+      <label >소개 이미지1</label>
+      <input type="file" name= "campsiteImgFiles">
+      <label >소개 이미지2</label>
+      <input type="file" name= "campsiteImgFiles">
+    </div>
+    
+    <input type="submit" value="등록하기">
+  </form>
+</body>
+</html>
