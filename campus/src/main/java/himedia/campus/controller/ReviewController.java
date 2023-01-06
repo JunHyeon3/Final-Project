@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,7 +89,7 @@ public class ReviewController {
 	@GetMapping("/reviews/post")
 	public String reviewAddForm(Model model, Principal principal) {
 		if (principal == null) {
-			return "redirect:/reviews";
+			return "redirect:/member/login";
 		}
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		
@@ -102,7 +104,11 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/reviews/post")
-	public String reviewAdd(ReviewDto reviewDto, List<MultipartFile> reviewImg) throws Exception {
+	public String reviewAdd(@Validated ReviewDto reviewDto, BindingResult bindingResult, List<MultipartFile> reviewImg) throws Exception {
+		if(bindingResult.hasErrors()) {
+			return "/review/review-write";
+		}
+		
 		reviewService.saveReview(reviewDto, reviewImg);
 		return "redirect:/reviews";
 	}
@@ -118,9 +124,9 @@ public class ReviewController {
 	}
 	
 	@PutMapping("/reviews/put/{reviewId}")
-	public String reviewEdit(ReviewDto reviewDto, @RequestParam List<MultipartFile> reviewImgs) throws Exception {
-		reviewService.updateReview(reviewDto, reviewImgs);
-		return "redirect:/reviews";
+	public String reviewEdit(ReviewDto reviewDto, @RequestParam List<MultipartFile> reviewImg) throws Exception {
+		reviewService.updateReview(reviewDto, reviewImg);
+		return "redirect:/reviews/" + reviewDto.getReviewId();
 	}
 	
 	@DeleteMapping("/reviews/delete/{reviewId}")

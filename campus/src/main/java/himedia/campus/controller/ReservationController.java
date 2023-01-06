@@ -4,6 +4,8 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,12 +34,18 @@ public class ReservationController {
 			return "reservation/reservation";
 		}
 		else {
-			return "redirect:/campsites/" + campsiteId;
+			return "redirect:/member/login";
 		}
 	}
 	
 	@PostMapping("/reservation/{campsiteId}")
-	public String reservationNew(@PathVariable Long campsiteId, Principal principal, ReservationDto reservationDto) {
+	public String reservationNew(@Validated ReservationDto reservationDto, BindingResult bindingResult, @PathVariable Long campsiteId, Principal principal,Model model) {
+		log.info("@@@@ : " + reservationDto.getCheckinDate());
+		if(bindingResult.hasErrors()) {
+			Campsite reservationCampsite = campsiteService.findByCampsiteId(campsiteId).get();
+			model.addAttribute("reservationCampsite", reservationCampsite);
+			return "reservation/reservation";
+		}
 		reservationService.saveReservation(reservationDto, campsiteId, principal.getName());
 		
 		return "redirect:/";

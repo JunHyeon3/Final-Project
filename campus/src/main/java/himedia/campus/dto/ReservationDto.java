@@ -1,7 +1,10 @@
 package himedia.campus.dto;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.modelmapper.ModelMapper;
 
@@ -16,9 +19,13 @@ public class ReservationDto {
 	
 	private Long reservationId;
 	private LocalDateTime reservationDate;
-	private Date checkinDate;
-	private Date checkoutDate;
+	@NotBlank(message="입실일을 선택해 주세요.")
+	private String checkinDate;
+	@NotBlank(message="퇴실일을 선택해 주세요.")
+	private String checkoutDate;
+	@NotNull(message="이용 인원을 입력해 주세요.")
 	private Integer headCount;
+	@Positive(message = "예약일을 확인해 주세요.")
 	private Integer totalPrice;
 	private ReservationStatus reservationStatus;
 	

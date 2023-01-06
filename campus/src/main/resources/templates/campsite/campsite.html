@@ -1,73 +1,91 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
+<title>캠핑장 상세</title>
 
-<body>
-  <h1>캠핑장 상세</h1>
-  <div>
-    <img th:src="@{${campsite.campsiteMainImgPath}}" style="width: 150px; height: 150px;"/>
-    <ul>
-      <li> 
-        캠핑장 이름 :<span th:text="${campsite.campsiteName}"></span>
-      </li>
-      <li>
-        캠핑장 주소 : <span th:text="${campsite.campsiteAddress}"></span>
-      </li>
-      <li>
-        캠핑장 연락처 : <span th:text="${campsite.campsiteTel}"></span>
-      </li>
-      <li>
-      	<input type="button" th:onclick="|location.href='@{/reservation/{campsiteId}(campsiteId = ${campsite.campsiteId})}'|" value="예약하기">
-      </li>
-    </ul>
-    <hr>
-    <h2>상세 정보</h2>
-    <div th:each="campsiteImg: ${campsiteImgs}" style="float: left;">
-      <img th:src="@{${campsiteImg}}" style="width: 300px; height: 300px;"/>
-    </div>
-    <table style="clear: both;">
-      <tbody>
-        <tr>
-          <th>소개 : </th>
-          <td th:text="${campsite.campsiteIntroduction}">소개글 ~~</td>
-        </tr>
-        <tr>
-          <th>환경 : </th>
-          <td th:text="${campsite.campsiteEnvironment}">산, 바다</td>
-        </tr>
-        <tr>
-          <th>편의시설 : </th>
-          <td th:text="${campsite.campsiteFacilitie}">샤워장, 취사장, 바베큐장</td>
-        </tr>
-        <tr>
-          <th>1박 이용요금 : </th>
-          <td th:text="|${campsite.campsitePrice} 원|">40000</td>
-        </tr>
-        <tr>
-          <th>최소 이용 인원 : </th>
-          <td th:text="${campsite.campsiteMin}">13:00</td>
-        </tr>
-        <tr>
-          <th>최대 이용 인원 : </th>
-          <td th:text="${campsite.campsiteMax}">13:00</td>
-        </tr>
-        <tr>
-          <th>체크인 : </th>
-          <td th:text="${campsite.campsiteCheckin}">14:00</td>
-        </tr>
-        <tr>
-          <th>체크아웃 : </th>
-          <td th:text="${campsite.campsiteCheckout}">13:00</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</body>
-
-</html>
+<section class="row">
+	<div id="content" class="col-8 mx-auto">
+		<div class="campsites row my-3">
+			<div class="col-4 text-center">
+				<img th:src="@{${campsite.campsiteMainImgPath}}" alt="이미지 없음"
+					class="img-thumbnail border border-success campsite-main-img" />
+			</div>
+			<div class="col">
+				<ul class="d-grid gap-3">
+					<li class="row">
+						<div class="col-3">캠핑장 이름</div>
+						<div th:text="${campsite.campsiteName}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-3">캠핑장 주소</div>
+						<div th:text="${campsite.campsiteAddress}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-3">캠핑장 연락처</div>
+						<div th:text="${campsite.campsiteTel}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-3">캠핑장 이용요금</div>
+						<div th:text="|1박당 ${campsite.campsitePrice} 원|" class="col"></div>
+					</li>
+					<li class="d-grid gap-2 col-6"><input type="button"
+						class="btn btn-success"
+						th:onclick="|location.href='@{/reservation/{campsiteId}(campsiteId = ${campsite.campsiteId})}'|"
+						value="예약하기"></li>
+				</ul>
+			</div>
+		</div>
+		<div>
+			<h2 class="fs-3 p-4 border-top border-success">상세 정보</h2>
+			<div class="px-4">
+				<div>
+					<table class="table table-borderless">
+						<tbody>
+							<tr>
+								<th scope="row">소개글</th>
+								<td th:text="${campsite.campsiteIntroduction}"
+									class="text-break w-75"></td>
+							</tr>
+							<tr>
+								<th scope="row">환경</th>
+								<td th:text="${campsite.campsiteEnvironment}"></td>
+							</tr>
+							<tr>
+								<th scope="row">테마</th>
+								<td th:text="${campsite.campsiteTheme}"></td>
+							</tr>
+							<tr>
+								<th scope="row">편의시설</th>
+								<td th:text="${campsite.campsiteFacilitie}"></td>
+							</tr>
+							<tr>
+								<th scope="row">1박 이용요금</th>
+								<td th:text="|${campsite.campsitePrice} 원|"></td>
+							</tr>
+							<tr>
+								<th scope="row">최소 이용 인원</th>
+								<td th:text="|${campsite.campsiteMin} 명|"></td>
+							</tr>
+							<tr>
+								<th scope="row">최대 이용 인원</th>
+								<td th:text="|${campsite.campsiteMax} 명|"></td>
+							</tr>
+							<tr>
+								<th scope="row">체크인 시간</th>
+								<td th:text="|${campsite.campsiteCheckin} 시|"></td>
+							</tr>
+							<tr>
+								<th scope="row">체크아웃 시간</th>
+								<td th:text="|${campsite.campsiteCheckout} 시|"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div th:each="campsiteImg: ${campsiteImgs}">
+					<img th:src="@{${campsiteImg}}" class="img-fluid my-2" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

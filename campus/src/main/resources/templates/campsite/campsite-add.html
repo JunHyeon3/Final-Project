@@ -1,98 +1,130 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>캠핑장 등록</h1>
-  <form th:action="@{/admin/campsites/new}" th:object="${campsiteDto}" th:method="post" enctype="multipart/form-data">
-    <div>
-      캠핑장 이름
-      <input type="text" th:field="*{campsiteName}">
-      <p th:errors="*{campsiteName}" class="text-danger"></p>
-    </div>
-    <div>
-      소개글
-      <textarea th:field="*{campsiteIntroduction}" cols="30" rows="10"></textarea>
-      <p th:errors="*{campsiteIntroduction}" class="text-danger"></p>
-    </div>
-    <div>
-      주소
-      <input type="text" th:field="*{campsiteAddress}">
-      <p th:errors="*{campsiteAddress}" class="text-danger"></p>
-    </div>
-    <div>
-      전화번호
-      <input type="text" th:field="*{campsiteTel}">
-      <p th:errors="*{campsiteTel}" class="text-danger"></p>
-    </div>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
 
-    <div>
-      이용요금
-      <input type="number" th:field="*{campsitePrice}">원
-      <p th:errors="*{campsitePrice}" class="text-danger"></p>
-    </div>
-    <div>
-      최소 인원
-      <input type="number" th:field="*{campsiteMin}">
-      <p th:errors="*{campsiteMin}" class="text-danger"></p>
-    </div>
-    <div>
-      최대 인원
-      <input type="number" th:field="*{campsiteMax}">
-      <p th:errors="*{campsiteMax}" class="text-danger"></p>
-    </div>
-    <div>
-      입실 시간
-      <input type="number" th:field="*{campsiteCheckin}">
-      <p th:errors="*{campsiteCheckin}" class="text-danger"></p>
-    </div>
-    <div>
-      퇴실 시간
-      <input type="number" th:field="*{campsiteCheckout}">
-      <p th:errors="*{campsiteCheckout}" class="text-danger"></p>
-    </div>
- 	<div>
-        환경
-		<div th:each="campsiteEnvironment: ${campsiteEnvironments}">
-			<input type="checkbox" th:field="*{campsiteEnvironment}" th:value="${campsiteEnvironment}">
-			<label th:for="${#ids.prev('campsiteEnvironment')}"
-					th:text="${campsiteEnvironment}"></label>
+<title>캠핑장 등록</title>
+
+<section class="row">
+	<th:block th:replace="fragments/left-side::side"></th:block>
+
+	<div id="content" class="col">
+		<div class="d-grid gap-2 mx-4 col-8">
+			<form th:action="@{/admin/campsites/new}" th:object="${campsiteDto}"
+				th:method="post" class="d-grid gap-2" enctype="multipart/form-data">
+
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">캠핑장 이름</span> <input type="text"
+						class="form-control" th:field="*{campsiteName}">
+					<p th:errors="*{campsiteName}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold">캠핑장 소개</span>
+					<textarea class="form-control" th:field="*{campsiteIntroduction}"></textarea>
+					<p th:errors="*{campsiteIntroduction}" class="text-danger"></p>
+
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">캠핑장 주소</span> <input type="text"
+						class="form-control" th:field="*{campsiteAddress}">
+					<p th:errors="*{campsiteAddress}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">캠핑장 연락처</span> <input type="text"
+						class="form-control" th:field="*{campsiteTel}">
+					<p th:errors="*{campsiteTel}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">이용 요금</span> <input type="number"
+						class="form-control" th:field="*{campsitePrice}">
+					<p th:errors="*{campsitePrice}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">최소 인원</span> <input type="number"
+						class="form-control" th:field="*{campsiteMin}">
+					<p th:errors="*{campsiteMin}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">최대 인원</span> <input type="number"
+						class="form-control" th:field="*{campsiteMax}">
+					<p th:errors="*{campsiteMax}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">입실 시간</span> <input type="number"
+						class="form-control" th:field="*{campsiteCheckin}">
+					<p th:errors="*{campsiteCheckin}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">퇴실 시간</span> <input type="number"
+						class="form-control" th:field="*{campsiteCheckout}">
+					<p th:errors="*{campsiteCheckout}" class="text-danger"></p>
+				</div>
+
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold">환경</span>
+					<div class="form-control d-flex flex-row flex-wrap">
+						<div th:each="campsiteEnvironment: ${campsiteEnvironments}" class="mx-2">
+							<label th:for="${#ids.next('campsiteEnvironment')}"
+								th:text="${campsiteEnvironment}"></label> 
+							<input type="checkbox" 
+								th:field="*{campsiteEnvironment}" th:value="${campsiteEnvironment}">
+						</div>
+					</div>
+					<p th:errors="*{campsiteEnvironment}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold">편의시설</span>
+					<div class="form-control d-flex flex-row flex-wrap">
+						<div th:each="campsiteFacilitie: ${campsiteFacilities}" class="mx-2">
+							<label th:for="${#ids.next('campsiteFacilitie')}"
+								th:text="${campsiteFacilitie}"></label>
+							<input type="checkbox"
+								th:field="*{campsiteFacilitie}" th:value="${campsiteFacilitie}">
+						</div>
+					</div>
+					<p th:errors="*{campsiteFacilitie}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">테마</span>
+					<div class="form-control d-flex flex-row flex-wrap">
+						<div th:each="campsiteTheme: ${campsiteThemes}" class="mx-2">
+							<label th:for="${#ids.next('campsiteTheme')}"
+								th:text="${campsiteTheme}"></label> 
+							<input type="checkbox"
+								th:field="*{campsiteTheme}" th:value="${campsiteTheme}">
+						</div>
+					</div>
+					<p th:errors="*{campsiteTheme}" class="text-danger"></p>
+				</div>
+
+				<div class="input-group row">
+					<label class="input-group-text col-3 fw-bold"
+						for="inputGroupFile01">대표 이미지</label> <input type="file"
+						class="form-control" name="campsiteImgFiles">
+				</div>
+				<div class="input-group row">
+					<label class="input-group-text col-3 fw-bold"
+						for="inputGroupFile01">소개 이미지</label> <input type="file"
+						class="form-control" name="campsiteImgFiles">
+				</div>
+				<div class="input-group row">
+					<label class="input-group-text col-3 fw-bold"
+						for="inputGroupFile01">소개 이미지</label> <input type="file"
+						class="form-control" name="campsiteImgFiles">
+				</div>
+				<div>
+					<input type="submit" value="등록하기"
+						class="btn btn-outline-success float-end mx-3">
+				</div>
+			</form>
 		</div>
-		<p th:errors="*{campsiteEnvironment}" class="text-danger"></p>
 	</div>
-    <div>
-        편의시설
-		<div th:each="campsiteFacilitie: ${campsiteFacilities}">
-			<input type="checkbox" th:field="*{campsiteFacilitie}" th:value="${campsiteFacilitie}">
-			<label th:for="${#ids.prev('campsiteFacilitie')}"
-					th:text="${campsiteFacilitie}"></label>
-		</div>
-		<p th:errors="*{campsiteFacilitie}" class="text-danger"></p>
-	</div>
-    <div>
-	    테마
-		<div th:each="campsiteTheme: ${campsiteThemes}">
-			<input type="checkbox" th:field="*{campsiteTheme}" th:value="${campsiteTheme}">
-			<label th:for="${#ids.prev('campsiteTheme')}"
-					th:text="${campsiteTheme}">서울</label>
-		</div>
-		<p th:errors="*{campsiteTheme}" class="text-danger"></p>
-	</div>
-    <div>
-      이미지 <br>
-      <label >대표 이미지1</label>
-      <input type="file" name= "campsiteImgFiles"> <br>
-      <label >소개 이미지1</label>
-      <input type="file" name= "campsiteImgFiles">
-      <label >소개 이미지2</label>
-      <input type="file" name= "campsiteImgFiles">
-    </div>
-    
-    <input type="submit" value="등록하기">
-  </form>
-</body>
-</html>
+</section>

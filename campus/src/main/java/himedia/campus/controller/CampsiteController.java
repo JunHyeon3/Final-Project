@@ -93,7 +93,7 @@ public class CampsiteController {
 		return "campsite/campsite";
 	}
 	
-	@PostMapping("/favorite/{campsiteId}")
+	@PostMapping("/campsites/favorite/{campsiteId}")
 	public String favoriteAdd(@PathVariable Long campsiteId, Principal principal) {
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		Campsite campsite = campsiteService.findByCampsiteId(campsiteId).get();
@@ -102,7 +102,7 @@ public class CampsiteController {
 		return "redirect:/campsites";
 	}
 	
-	@DeleteMapping("/favorite/{campsiteId}")
+	@DeleteMapping("/campsites/favorite/{campsiteId}")
 	public String favoriteDelete(@PathVariable Long campsiteId, Principal principal) {
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		

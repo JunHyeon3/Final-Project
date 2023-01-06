@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  
-</head>
+<title>리뷰 작성</title>
 
-<body>
-
-  <h1>리뷰 등록</h1>
-  <form th:action th:object="${reviewDto}" th:method="post" enctype="multipart/form-data">
-	<div>
-      캠핑장
-      <select th:field="*{reviewCampsite}">
-        <option value="">이용한 캠핑장 선택</option>
-        <option th:each="campsite: ${campsites}" th:value="${campsite.campsiteName}" th:text="${campsite.campsiteName}"></option>
-      </select>
-    </div>
-    <div>
-      작성자
-      <input type="text" th:field="*{reviewWriter}">
-    </div>
-    <div>
-      제목
-      <input type="text" th:field="*{reviewTitle}">
-    </div>
-    <div>
-      내용
-      <textarea th:field="*{reviewContent}" cols="30" rows="10"></textarea>
-    </div>
-    <div>
-      <label >이미지1</label>
-      <input type="file" name= "reviewImg">
-      <label >이미지2</label>
-      <input type="file" name= "reviewImg">
-      <label >이미지3</label>
-      <input type="file" name= "reviewImg">
-    </div>
-    
-    <input type="submit" value="등록하기">
-    <input type="button" th:onclick="|location.href='@{/reviews}'|" value="취소">
-  </form>
-</body>
-
-</html>
+<section>
+	<div class="w-50 p-3 m-auto">
+		<form th:action th:object="${reviewDto}" th:method="post" enctype="multipart/form-data">
+			<div class="d-flex justify-content-center flex-wrap">
+					<div class="input-group mt-3 w-50 pe-3">
+			  			<span class="input-group-text">작성자</span>
+						<input type="text" th:field="*{reviewWriter}" class="form-control" readonly>
+					</div>
+					<div class="input-group mt-3 w-50">
+			  			<span class="input-group-text">이용 캠핑장</span>
+						<select th:field="*{reviewCampsite}" class="form-select">
+		       				<option value="">캠핑장 선택</option>
+		        			<option th:each="campsite: ${campsites}" th:value="${campsite.campsiteName}" th:text="${campsite.campsiteName}"></option>
+		      			</select>
+					</div>
+	      			<p th:errors="*{reviewCampsite}" class="text-danger"></p>
+					<div class="input-group mt-3">
+			  			<span class="input-group-text">제목</span>
+						<input type="text" th:field="*{reviewTitle}" class="form-control">
+					</div>
+	      			<p th:errors="*{reviewTitle}" class="text-danger"></p>
+					<div class="input-group mt-3">
+						<span class="input-group-text">내용</span>
+						<textarea th:field="*{reviewContent}" class="form-control"></textarea>
+					</div>
+	      			<p th:errors="*{reviewContent}" class="text-danger"></p>
+	   				<div class="input-group row mt-3">
+						<input type="file" name="reviewImg" class="form-control">
+					</div>
+					<div class="input-group row mt-3">
+						<input type="file" name="reviewImg" class="form-control">
+					</div>
+					<div class="input-group row mt-3">
+						<input type="file" name="reviewImg" class="form-control">
+					</div>
+	    			<div class="mt-3">
+					    <input type="button" th:onclick="|location.href='@{/reviews}'|" value="취소"class="btn btn-outline-danger mx-3">
+					    <input type="submit" value="등록" class="btn btn-outline-success">
+	    			</div>
+			</div>
+	 	</form>
+	</div>
+</section>

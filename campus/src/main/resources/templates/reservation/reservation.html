@@ -1,47 +1,117 @@
-
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
+
+<title>예약 하기</title>
+
+<section class="row">
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		function input() {
+			var campsitePrice = /*[[${reservationCampsite.campsitePrice}]]*/'0';
+
+			var checkinDate = document.getElementById("checkinDate").value
+					.split('-');
+			var checkoutDate = document.getElementById("checkoutDate").value
+					.split('-');
+			var day1 = new Date(checkinDate[0], checkinDate[1], checkinDate[2]);
+			var day2 = new Date(checkoutDate[0], checkoutDate[1],
+					checkoutDate[2]);
+			var days = (day2 - day1) / (24 * 60 * 60 * 1000);
+
+			document.getElementById("totalPrice").value = days * campsitePrice;
+		}
+		/*]]>*/
+	</script>
+	<div id="content" class="col-8 mx-auto">
+		<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-evenly">
+			<div>
+				<img th:src="${reservationCampsite.campsiteMainImgPath}"
+					alt="이미지 없음" class="img-thumbnail border border-success"
+					style="width: 300px; height: 300px;">
+				<div th:text="${reservationCampsite.campsiteName}"
+					class="fs-5 fw-bold my-3 text-center"></div>
+			</div>
+			<div class="text-center">
+				<form th:action th:method="post" th:object="${reservationDto}" class="mx-auto">
+					<div class="row mt-3">
+						<div class="col-4 fw-bold">입실일</div>
+						<input type="date" th:field="*{checkinDate}" class="col-6">
+					</div>
+					<p th:errors="*{checkinDate}" class="text-danger"></p>
+					<div class="row mt-3">
+						<div class="col-4 fw-bold">퇴실일</div>
+						<input type="date" th:field="*{checkoutDate}" onchange="input()" class="col-6">
+					</div>
+					<p th:errors="*{checkoutDate}" class="text-danger"></p>
+					<div class="row mt-3">
+						<div class="col-4 fw-bold">인원 수</div>
+						<input type="number" th:field="*{headCount}" class="col-6">
+					</div>
+					<p th:errors="*{headCount}" class="text-danger"></p>
+					<div class="row mt-3">
+						<div class="col-4 fw-bold">결제 금액</div>
+						<input type="text" th:field="*{totalPrice}" class="col-6" readonly>
+					</div>
+					<p th:errors="*{totalPrice}" class="text-danger"></p>
+					<input type="submit" value="예약하기" class="btn btn-success mt-3">
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!-- <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script th:inline="javascript">
-    /*<![CDATA[*/
+var now_utc = Date.now()
+var timeOff = new Date().getTimezoneOffset()*60000;
+var today = new Date(now_utc-timeOff).toISOString().split("T")[0];
+document.getElementById("Date").setAttribute("max", today);
+
+	/*<![CDATA[*/
 	function input() {
 		var campsitePrice = /*[[${reservationCampsite.campsitePrice}]]*/'0';
-		
-		var checkinDate = document.getElementById("checkinDate").value.split('-');
-		var checkoutDate = document.getElementById("checkoutDate").value.split('-');
+
+		var checkinDate = document.getElementById("checkinDate").value
+				.split('-');
+		var checkoutDate = document.getElementById("checkoutDate").value
+				.split('-');
 		var day1 = new Date(checkinDate[0], checkinDate[1], checkinDate[2]);
 		var day2 = new Date(checkoutDate[0], checkoutDate[1], checkoutDate[2]);
 		var days = (day2 - day1) / (24 * 60 * 60 * 1000);
-		
+
 		document.getElementById("totalPrice").value = days * campsitePrice;
 	}
-	/*]]>*/ 
+	/*]]>*/
 </script>
 </head>
 <body>
-  <h1>예약 하기</h1>
-  <div th:text="${reservationCampsite.campsiteName}"></div>
-  <img th:src="${reservationCampsite.campsiteMainImgPath}" style="height: 300px;">
-  <form th:action th:method="post" th:object="${reservationDto}">
-    <div>
-      입실일 :
-      <input type="date" th:field="*{checkinDate}" onchange="input()">
-    </div>
-    <div>
-      퇴실일 :
-      <input type="date" th:field="*{checkoutDate}" onchange="input()">
-    </div>
-    <div>
-      인원 수 :
-      <input type="number" th:field="*{headCount}">
-    </div>
-    <div>
-      결제 금액 :
-      <input type="text" th:field="*{totalPrice}" value="0">
-    </div>
-    <input type="submit" value="예약하기">
-  </form>
+	<h1>예약 하기</h1>
+	<div th:text="${reservationCampsite.campsiteName}"></div>
+	<img th:src="${reservationCampsite.campsiteMainImgPath}"
+		style="height: 300px;">
+	<form th:action th:method="post" th:object="${reservationDto}">
+		<div>
+			입실일 : <input type="date"  id="Date" onchange="input()">
+		</div>
+		<div>
+			퇴실일 : <input type="date" id="Date"
+				onchange="input()">
+		</div>
+		<div>
+			인원 수 : <input type="number" th:field="*{headCount}">
+		</div>
+		<p th:errors="*{headCount}" class="text-danger"></p>
+
+		<div>
+			결제 금액 : <input type="text" th:field="*{totalPrice}" value="0">
+		</div>
+		<input type="submit" value="예약하기">
+	</form>
 </body>
-</html>
+</html> -->

@@ -8,22 +8,23 @@
 	<th:block th:replace="fragments/left-side::side"></th:block>
 
 	<div id="content" class="col-7">
-		<form th:action th:method="put" th:object="${memberDto}">
-			<div class="input-group input-group-lg my-3 row">
-				<span class="input-group-text col-3" id="inputGroup-sizing-lg w-25">아이디</span>
+		<div class="w-75 mx-auto position-relative">
+		<form th:action th:method="put" th:object="${memberDto}" >
+			<div class="input-group input-group-default my-3 row">
+				<span class="input-group-text col-3">아이디</span>
 				<input type="text" class="form-control" th:field="*{memberId}"
 					readonly>
 			</div>
-			<div class="input-group input-group-lg my-3 row">
-				<span class="input-group-text col-3" id="inputGroup-sizing-lg w-25">이름</span>
+			<div class="input-group input-group-default my-3 row">
+				<span class="input-group-text col-3">이름</span>
 				<input type="text" class="form-control" th:field="*{memberName}">
 			</div>
-			<div class="input-group input-group-lg my-3 row">
-				<span class="input-group-text col-3" id="inputGroup-sizing-lg w-25">전화번호</span>
+			<div class="input-group input-group-default my-3 row">
+				<span class="input-group-text col-3">전화번호</span>
 				<input type="text" class="form-control" th:field="*{memberPhone}">
 			</div>
-			<div class="input-group input-group-lg my-3 row">
-				<span class="input-group-text col-3" id="inputGroup-sizing-lg w-25">나이</span>
+			<div class="input-group input-group-default my-3 row">
+				<span class="input-group-text col-3">나이</span>
 				<input type="number" class="form-control" th:field="*{memberAge}">
 			</div>
 			<div class="d-flex justify-content-end">
@@ -32,10 +33,10 @@
 					type="submit" value="수정" class="btn btn-outline-success mx-2">
 			</div>
 		</form>
-		<form th:action th:method="delete">
+		<form th:action="@{/my-page/delete/my-info}" th:method="delete" class="w-50 mx-auto">
 			<input type="submit" value="회원탈퇴"
-				class="btn btn-outline-danger btn-sm">
+				class="btn btn-outline-danger btn-sm position-absolute bottom-0 start-0">
 		</form>
-
+		</div>
 	</div>
 </section>

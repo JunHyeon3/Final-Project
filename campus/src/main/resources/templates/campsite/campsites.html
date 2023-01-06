@@ -12,8 +12,7 @@
 					<label>환경</label>
 				</div>
 				<div class="col">
-					<select name="searchEnvironment" class="form-select form-select"
-						aria-label=".form-select-sm example">
+					<select name="searchEnvironment" class="form-select form-select">
 						<option value="">환경 선택</option>
 						<option th:each="campsiteEnvironment: ${campsiteEnvironments}"
 							th:value="${campsiteEnvironment}"
@@ -26,8 +25,7 @@
 					<label>테마</label>
 				</div>
 				<div class="col">
-					<select name="searchTheme" class="form-select form-select"
-						aria-label=".form-select-sm example">
+					<select name="searchTheme" class="form-select form-select">
 						<option value="">테마 선택</option>
 						<option th:each="campsiteTheme: ${campsiteThemes}"
 							th:value="${campsiteTheme}" th:text="${campsiteTheme}"></option>
@@ -35,81 +33,85 @@
 				</div>
 			</div>
 			<div class="text-center">
-				<input type="submit" class="btn btn-outline-success col-8"
-					value="검색">
+				<input type="submit" class="btn btn-outline-success col-8" value="검색">
 			</div>
 		</form>
 	</div>
 
 	<div id="content" class="col">
-		<div th:each="campsite: ${campsites}" class="campsites row my-3 position-relative">
+		<div th:each="campsite: ${campsites}"
+			class="campsites row my-5 p-2 position-relative border-bottom border-success">
 			<div class="col-4 text-center">
 				<a
 					th:href="@{/campsites/{campsiteId}(campsiteId=${campsite.campsiteId})}">
-						<img th:src="@{${campsite.campsiteMainImgPath}}" alt="이미지 없음" class="img-thumbnail border border-success campsite-main-img" />
+					<img th:src="@{${campsite.campsiteMainImgPath}}" alt="이미지 없음"
+					class="img-thumbnail border border-success campsite-main-img" />
 				</a>
 				<div class="position-absolute top-0 end-0">
-						<form
-							th:if="${!@campsiteController.find(memberNo, campsite.campsiteId) and memberNo != null}"
-							th:action="@{|/favorite/${campsite.campsiteId}|}"
-							th:method="post">
-							<button type="submit" class="btn btn-link btn-lg">
-								<i class="fa-regular fa-heart"></i>
-							</button>
-						</form>
-						<form
-							th:if="${@campsiteController.find(memberNo, campsite.campsiteId)}"
-							th:action="@{|/favorite/${campsite.campsiteId}|}"
-							th:method="delete">
-							<button type="submit" class="btn btn-link btn-lg">
-								<i class="fa-solid fa-heart" style="color: red"></i>
-							</button>
-						</form>
+					<form
+						th:if="${!@campsiteController.find(memberNo, campsite.campsiteId) and memberNo != null}"
+						th:action="@{|/campsites/favorite/${campsite.campsiteId}|}"
+						th:method="post">
+						<button type="submit" class="btn btn-link btn-lg">
+							<i class="fa-regular fa-heart"></i>
+						</button>
+					</form>
+					<form
+						th:if="${@campsiteController.find(memberNo, campsite.campsiteId)}"
+						th:action="@{|/campsites/favorite/${campsite.campsiteId}|}"
+						th:method="delete">
+						<button type="submit" class="btn btn-link btn-lg">
+							<i class="fa-solid fa-heart" style="color: red"></i>
+						</button>
+					</form>
 				</div>
 			</div>
 			<div class="col">
 				<ul class="d-grid gap-3">
 					<li class="row">
-						<div class="col-3">캠핑장 이름</div> 
+						<div class="col-3">캠핑장 이름</div>
 						<div th:text="${campsite.campsiteName}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 주소</div> 
+						<div class="col-3">캠핑장 주소</div>
 						<div th:text="${campsite.campsiteAddress}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 연락처</div> 
+						<div class="col-3">캠핑장 연락처</div>
 						<div th:text="${campsite.campsiteTel}" class="col"></div>
 					</li>
 					<li class="row">
-						<div  class="col-3">캠핑장 이용요금</div> 
+						<div class="col-3">캠핑장 이용요금</div>
 						<div th:text="|1박당 ${campsite.campsitePrice} 원|" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 편의시설</div> 
+						<div class="col-3">캠핑장 편의시설</div>
 						<div th:text="${campsite.campsiteFacilitie}" class="col"></div>
 					</li>
 				</ul>
 			</div>
 		</div>
 
-		<nav aria-label="..." class="d-flex justify-content-center">
+		<nav class="d-flex justify-content-center">
 			<ul class="pagination">
-				<li class="page-item"
-					th:classappend="${startPage==nowPage} ? 'disabled' : ''"><a
-					th:href="(${searchEnv}==null and ${searchTheme}==null)? @{/campsites(page=${nowPage-2})} : @{/campsites(page=${nowPage-2}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
+				<li class="page-item" th:classappend="${startPage==nowPage} ? 'disabled' : ''">
+					<a th:href="(${searchEnv}==null and ${searchTheme}==null)? 
+								@{/campsites(page=${nowPage-2})} : 
+								@{/campsites(page=${nowPage-2}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
 					class="page-link">이전</a></li>
 
 				<li class="page-item"
 					th:each="page:${#numbers.sequence(startPage,endPage)}"
-					th:classappend="${page==nowPage} ? 'active' : ''"><a
-					class="page-link"
-					th:href="(${searchEnv}==null and ${searchTheme}==null)? @{/campsites(page=${page-1})} : @{/campsites(page=${page-1}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
-					th:text="${page}"></a></li>
+					th:classappend="${page==nowPage} ? 'active' : ''">
+					<a th:href="(${searchEnv}==null and ${searchTheme}==null)? 
+								@{/campsites(page=${page-1})} : 
+								@{/campsites(page=${page-1}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
+					th:text="${page}" class="page-link"></a></li>
 
-				<li class="page-item"
-					th:classappend="${endPage==nowPage} ? 'disabled' : ''"><a
-					th:href="(${searchEnv}==null and ${searchTheme}==null)? @{/campsites(page=${nowPage})} : @{/campsites(page=${nowPage}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
+				<li class="page-item" th:classappend="${endPage==nowPage} ? 'disabled' : ''">
+					<a th:href="(${searchEnv}==null and ${searchTheme}==null)? 
+								@{/campsites(page=${nowPage})} : 
+								@{/campsites(page=${nowPage}, searchEnvironment=${searchEnv}, searchTheme=${searchTheme})}"
 					class="page-link" href="#">다음</a></li>
 			</ul>
 		</nav>

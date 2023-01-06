@@ -1,20 +1,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="side">
-	<div id="left-side" class="col-3">
-	  <ul>
-	  	<li>
-	  	  <a th:href="@{/my-page}">내 정보</a>
+	<div id="left-side" class="col-3 d-flex justify-content-center">
+	  <ul class="text-center w-50">
+	  	<li class="py-2 border-top border-success">
+	  	  <a th:href="@{/my-page}" class="fs-5">내 정보</a>
 	  	</li>
-	    <li sec:authorize="hasAnyAuthority('ROLE_USER')">
-	      <a th:href="@{/my-page/favorite}">관심 캠핑장</a>
+	    <li class="py-2 border-top border-bottom border-success">
+	      <a th:href="@{/my-page/favorite}" sec:authorize="hasAnyAuthority('ROLE_USER')" class="fs-5">관심 캠핑장</a>
+	      <a th:href="@{/admin/campsites}" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="fs-5">캠핑장 등록/관리</a>
 	    </li>
-	    <li sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-	      <a th:href="@{/admin/campsites}">캠핑장 등록/관리</a>
-	    </li>
-	  	<li>
-	  	  <a th:href="@{/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_USER')">예약 조회</a>
-	  	  <a th:href="@{/admin/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">예약 관리</a>
+	  	<li class="py-2 border-bottom border-success">
+	  	  <a th:href="@{/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_USER')" class="fs-5">예약 조회</a>
+	  	  <a th:href="@{/admin/my-page/reservation}" sec:authorize="hasAnyAuthority('ROLE_ADMIN')" class="fs-5">예약 관리</a>
 	  	</li>
 	  </ul>
 	</div>

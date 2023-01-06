@@ -1,4 +1,51 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{fragments/layout-form::layout(~{::title}, ~{::section})}">
+
+<title>리뷰 수정</title>
+
+<section>
+	<div class="w-50 p-3 m-auto">
+		<form th:action="@{|/reviews/put/${reviewDto.reviewId}|}" th:object="${reviewDto}" th:method="put" enctype="multipart/form-data">
+			<div class="d-flex justify-content-center flex-wrap">
+					<div class="input-group mb-3 w-50 pe-3">
+			  			<span class="input-group-text">작성자</span>
+						<input type="text" th:field="*{reviewWriter}" class="form-control" readonly>
+					</div>
+					<div class="input-group mb-3 w-50">
+			  			<span class="input-group-text">이용 캠핑장</span>
+						<select th:field="*{reviewCampsite}" class="form-select">
+		       				<option value="">캠핑장 선택</option>
+		        			<option th:each="campsite: ${campsites}" th:value="${campsite.campsiteName}" th:text="${campsite.campsiteName}"></option>
+		      			</select>
+					</div>
+					<div class="input-group mb-3">
+			  			<span class="input-group-text">제 목</span>
+						<input type="text" th:field="*{reviewTitle}" class="form-control">
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text">내 용</span>
+						<textarea th:field="*{reviewContent}" class="form-control"></textarea>
+					</div>
+	   				<div class="input-group row mb-3">
+						<input type="file" name="reviewImg" class="form-control">
+					</div>
+					<div class="input-group row mb-3">
+						<input type="file" name="reviewImg" class="form-control">
+					</div>
+					<div class="input-group row mb-3">
+						<input type="file" name="reviewImg" class="form-control">
+					</div>
+	    			<div>
+					    <input type="button" th:onclick="|location.href='@{/reviews/{reviewId}(reviewId=${reviewDto.reviewId})}'|" value="취소" class="btn btn-outline-danger mx-3">
+					    <input type="submit" value="수정" class="btn btn-outline-success">
+	    			</div>
+			</div>
+	 	</form>
+	</div>
+</section>
+
+<!-- <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -12,7 +59,7 @@
 <body>
 
   <h1>리뷰 수정</h1>
-  <form th:action="@{|/reviews/put/${reviewDto.reviewId}|}" th:object="${reviewDto}" th:method="put" enctype="multipart/form-data">
+  <form th:action="@{|/reviews/put/${reviewDto.reviewId}|}" >
     <div> 
   	  작성자
   	  <input type="text" th:field="*{reviewWriter}" readonly>
@@ -43,4 +90,4 @@
   </form>
 </body>
 
-</html>
+</html> -->
