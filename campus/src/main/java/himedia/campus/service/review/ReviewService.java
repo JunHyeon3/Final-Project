@@ -74,7 +74,7 @@ public class ReviewService {
 	}
 
 	public Page<Review> findBySearchCampsite(String searchCampsite, Pageable pageable) {;
-		return reviewRepository.findByReviewCampsiteContaining(searchCampsite, pageable);
+		return reviewRepository.findBySearchCampsite(searchCampsite, pageable);
 	}
 	
 }

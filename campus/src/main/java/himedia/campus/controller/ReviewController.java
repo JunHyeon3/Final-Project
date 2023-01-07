@@ -39,8 +39,8 @@ public class ReviewController {
 	private final ReviewImgService reviewImgService;
 	private final MemberService memberService;
 	
-	@GetMapping(value={"/reviews", "/reviews/search"})
-	public String reviewList(@RequestParam(required = false) String searchCampsite, @PageableDefault(sort="reviewId", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+	@GetMapping(value={"/reviews"})
+	public String reviewList(@RequestParam(required = false) String searchCampsite, @PageableDefault(sort="review_Id", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
 		Page<Review> reviewList = null;
 		if(searchCampsite != null) {
 			reviewList = reviewService.findBySearchCampsite(searchCampsite, pageable);

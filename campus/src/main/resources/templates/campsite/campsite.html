@@ -14,19 +14,19 @@
 			<div class="col">
 				<ul class="d-grid gap-3">
 					<li class="row">
-						<div class="col-3">캠핑장 이름</div>
+						<div class="col-4 fw-bold">캠핑장명</div>
 						<div th:text="${campsite.campsiteName}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 주소</div>
+						<div class="col-4 fw-bold">주소</div>
 						<div th:text="${campsite.campsiteAddress}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 연락처</div>
+						<div class="col-4 fw-bold">연락처</div>
 						<div th:text="${campsite.campsiteTel}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 이용요금</div>
+						<div class="col-4 fw-bold">이용요금</div>
 						<div th:text="|1박당 ${campsite.campsitePrice} 원|" class="col"></div>
 					</li>
 					<li class="d-grid gap-2 col-6"><input type="button"

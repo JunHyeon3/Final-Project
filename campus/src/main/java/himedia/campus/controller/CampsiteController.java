@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import himedia.campus.dto.campsite.CampsiteDto;
 import himedia.campus.entity.campsite.Campsite;
 import himedia.campus.entity.campsite.CampsiteImg;
 import himedia.campus.entity.member.Member;
+import himedia.campus.repository.campsite.CampsiteRepository;
 import himedia.campus.service.MemberService;
 import himedia.campus.service.campsite.CampsiteImgService;
 import himedia.campus.service.campsite.CampsiteService;
@@ -42,18 +44,21 @@ public class CampsiteController {
 	private final CampsiteImgService campsiteImgService;
 	private final FavoriteService favoriteService;
 	private final MemberService memberService;
+	private final CampsiteRepository campsiteRepository;
 
 	@GetMapping("/campsites")
-	public String campsiteList(@PageableDefault(sort="campsiteId", direction = Sort.Direction.DESC) Pageable pageable, 
+	public String campsiteList(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, 
 								@RequestParam(required = false) String searchEnvironment,
 								@RequestParam(required = false) String searchTheme,
 								Model model, Principal principal) {
+		log.info("환경 : " + searchEnvironment);
+		log.info("테마 : " + searchTheme);
 		Page<Campsite> campsiteList = null;
 		if(searchEnvironment == null && searchTheme == null) {
 			campsiteList = campsiteService.pageList(pageable);
 		}
 		else {	
-//			campsiteList = campsiteService.findByEnviornmentAndTheme(searchEnvironment, searchTheme, pageable);
+			campsiteList = campsiteService.findByThemeAndEnvironment(searchTheme, searchEnvironment, pageable);
 		}
 		
 		int nowPage = campsiteList.getPageable().getPageNumber()+1;                                                                                                                                                                                                                                                                                                                                                                                                               ;
@@ -198,4 +203,9 @@ public class CampsiteController {
 		return facilities;
 	}
 	
+//	@GetMapping("/ss")
+//	@ResponseBody
+//	public Set<String> ff() {
+//		return campsiteRepository.fff();
+//	}
 }
