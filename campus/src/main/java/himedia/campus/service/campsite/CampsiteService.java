@@ -1,5 +1,6 @@
 package himedia.campus.service.campsite;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,30 +17,24 @@ import himedia.campus.entity.member.Member;
 import himedia.campus.repository.MemberRepository;
 import himedia.campus.repository.campsite.CampsiteRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class CampsiteService {
 
 	private final CampsiteRepository campsiteRepository;
 	private final CampsiteImgService campsiteImgService;
-	private final MemberRepository memberRepository;
 	
-	public Long saveCampsite(CampsiteDto campsiteDto, String memberId,
-							List<String> campsiteEnvironment,
-							List<String> campsiteFacilitie, 
-							List<String> campsiteTheme,
+	public Long saveCampsite(CampsiteDto campsiteDto, Member member,
 							List<MultipartFile> campsiteImgFiles) throws Exception {
-		Member findMember = memberRepository.findByMemberId(memberId).get();
-		campsiteDto.setCampsiteManager(findMember.getMemberName());
-		campsiteDto.setCampsiteEnvironment(String.join(", ", campsiteEnvironment));
-		campsiteDto.setCampsiteFacilitie(String.join(", ", campsiteFacilitie));
-		campsiteDto.setCampsiteTheme(String.join(", ", campsiteTheme));
+		campsiteDto.setCampsiteManager(member.getMemberName());
 		
 		Campsite campsite = campsiteDto.toEntity();
-		campsite.setMember(findMember);
 		campsiteRepository.save(campsite);
+		campsite.setMember(member);
 		
 		for(int i=0; i<campsiteImgFiles.size(); i++) {
 			CampsiteImg campsiteImg = new CampsiteImg();
@@ -84,8 +79,10 @@ public class CampsiteService {
 		return campsiteRepository.findAll(pageable);
 	}
 
-	public Page<Campsite> findByEnviornmentAndTheme(String campsiteEnvironment, String campsiteTheme, Pageable pageable) {
-		return campsiteRepository.findByCampsiteEnvironmentContainingAndCampsiteThemeContaining(campsiteEnvironment, campsiteTheme, pageable);
-	}
+//	public Page<Campsite> findByEnviornmentAndTheme(String campsiteEnvironment, String campsiteTheme, Pageable pageable) {
+//		return campsiteRepository.findByCampsiteEnvironmentContainingAndCampsiteThemeContaining (campsiteEnvironment, 
+//																								campsiteTheme, 
+//																								pageable);
+//	}
 	
 }

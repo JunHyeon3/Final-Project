@@ -57,7 +57,7 @@
 						id="inputGroup-sizing-sm">퇴실 시간</span> <input type="number"
 						class="form-control" th:field="*{campsiteCheckout}">
 				</div>
-				<div class="input-group input-group-sm row">
+				<!-- 		<div class="input-group input-group-sm row">
 					<span class="input-group-text col-3 fw-bold"
 						id="inputGroup-sizing-sm">환경</span> <input type="text"
 						class="form-control" th:field="*{campsiteEnvironment}" readonly>
@@ -71,6 +71,40 @@
 					<span class="input-group-text col-3 fw-bold"
 						id="inputGroup-sizing-sm">테마</span> <input type="text"
 						class="form-control" th:field="*{campsiteTheme}" readonly>
+				</div> -->
+
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold">환경</span>
+					<div class="form-control d-flex flex-row flex-wrap">
+						<div th:each="environment: ${environments}" class="mx-2">
+							<label th:for="${#ids.next('environments')}"
+								th:text="${environment}"></label> <input type="checkbox"
+								th:field="*{environments}" th:value="${environment}">
+						</div>
+					</div>
+					<p th:errors="*{environments}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold">편의시설</span>
+					<div class="form-control d-flex flex-row flex-wrap">
+						<div th:each="facilitie: ${facilities}" class="mx-2">
+							<label th:for="${#ids.next('facilities')}" th:text="${facilitie}"></label>
+							<input type="checkbox" th:field="*{facilities}"
+								th:value="${facilitie}">
+						</div>
+					</div>
+					<p th:errors="*{facilities}" class="text-danger"></p>
+				</div>
+				<div class="input-group input-group-sm row">
+					<span class="input-group-text col-3 fw-bold"
+						id="inputGroup-sizing-sm">테마</span>
+					<div class="form-control d-flex flex-row flex-wrap">
+						<div th:each="theme: ${themes}" class="mx-2">
+							<label th:for="${#ids.next('themes')}" th:text="${theme}"></label>
+							<input type="checkbox" th:field="*{themes}" th:value="${theme}">
+						</div>
+					</div>
+					<p th:errors="*{themes}" class="text-danger"></p>
 				</div>
 
 				<div class="input-group row">

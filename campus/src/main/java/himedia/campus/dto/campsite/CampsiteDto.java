@@ -1,5 +1,8 @@
 package himedia.campus.dto.campsite;
 
+import java.util.Set;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -37,12 +40,12 @@ public class CampsiteDto {
 	@NotNull(message="체크인 시간은 필수 입력 항목입니다.")
 	private Integer campsiteCheckout;
 
-	@NotBlank(message = "주변 환경을 하나이상 선택해 주세요.")
-	private String campsiteEnvironment;
-	@NotBlank(message = "편의 시설을 하나이상 선택해 주세요.")
-	private String campsiteFacilitie;
-	@NotBlank(message = "테마를 하나이상 선택해 주세요.")
-	private String campsiteTheme;
+	@NotEmpty(message = "주변 환경을 하나이상 선택해 주세요.")
+	private Set<@Valid String> environments;
+	@NotEmpty(message = "편의 시설을 하나이상 선택해 주세요.")
+	private Set<@Valid String> facilities;
+	@NotEmpty(message = "테마를 하나이상 선택해 주세요.")
+	private Set<@Valid String> themes;
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 

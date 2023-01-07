@@ -14,9 +14,9 @@
 				<div class="col">
 					<select name="searchEnvironment" class="form-select form-select">
 						<option value="">환경 선택</option>
-						<option th:each="campsiteEnvironment: ${campsiteEnvironments}"
-							th:value="${campsiteEnvironment}"
-							th:text="${campsiteEnvironment}"></option>
+						<option th:each="environment: ${environments}"
+							th:value="${environment}"
+							th:text="${environment}"></option>
 					</select>
 				</div>
 			</div>
@@ -27,8 +27,8 @@
 				<div class="col">
 					<select name="searchTheme" class="form-select form-select">
 						<option value="">테마 선택</option>
-						<option th:each="campsiteTheme: ${campsiteThemes}"
-							th:value="${campsiteTheme}" th:text="${campsiteTheme}"></option>
+						<option th:each="theme: ${themes}"
+							th:value="${theme}" th:text="${theme}"></option>
 					</select>
 				</div>
 			</div>
@@ -42,10 +42,10 @@
 		<div th:each="campsite: ${campsites}"
 			class="campsites row my-5 p-2 position-relative border-bottom border-success">
 			<div class="col-4 text-center">
-				<a
+				<a  style="height: 200px"
 					th:href="@{/campsites/{campsiteId}(campsiteId=${campsite.campsiteId})}">
 					<img th:src="@{${campsite.campsiteMainImgPath}}" alt="이미지 없음"
-					class="img-thumbnail border border-success campsite-main-img" />
+					class="img-thumbnail border border-success campsite-main-img"/>
 				</a>
 				<div class="position-absolute top-0 end-0">
 					<form
@@ -69,24 +69,24 @@
 			<div class="col">
 				<ul class="d-grid gap-3">
 					<li class="row">
-						<div class="col-3">캠핑장 이름</div>
+						<div class="col-4 fw-bold">캠핑장명</div>
 						<div th:text="${campsite.campsiteName}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 주소</div>
+						<div class="col-4 fw-bold">주소</div>
 						<div th:text="${campsite.campsiteAddress}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 연락처</div>
+						<div class="col-4 fw-bold">연락처</div>
 						<div th:text="${campsite.campsiteTel}" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 이용요금</div>
+						<div class="col-4 fw-bold">이용요금</div>
 						<div th:text="|1박당 ${campsite.campsitePrice} 원|" class="col"></div>
 					</li>
 					<li class="row">
-						<div class="col-3">캠핑장 편의시설</div>
-						<div th:text="${campsite.campsiteFacilitie}" class="col"></div>
+						<div class="col-4 fw-bold">편의시설</div>
+						<div th:text="${campsite.facilities}" class="col"></div>
 					</li>
 				</ul>
 			</div>

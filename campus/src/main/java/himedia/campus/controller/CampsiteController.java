@@ -1,8 +1,9 @@
 package himedia.campus.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,7 +53,7 @@ public class CampsiteController {
 			campsiteList = campsiteService.pageList(pageable);
 		}
 		else {	
-			campsiteList = campsiteService.findByEnviornmentAndTheme(searchEnvironment, searchTheme, pageable);
+//			campsiteList = campsiteService.findByEnviornmentAndTheme(searchEnvironment, searchTheme, pageable);
 		}
 		
 		int nowPage = campsiteList.getPageable().getPageNumber()+1;                                                                                                                                                                                                                                                                                                                                                                                                               ;
@@ -126,16 +126,16 @@ public class CampsiteController {
 	
 	@PostMapping("/admin/campsites/new")
 	public String campsiteNew(@Validated CampsiteDto campsiteDto, BindingResult bindingResult,
-								@RequestParam(required = false) List<String> campsiteEnvironment,
-								@RequestParam(required = false) List<String> campsiteFacilitie, 
-								@RequestParam(required = false) List<String> campsiteTheme,
 								@RequestParam List<MultipartFile> campsiteImgFiles,
 								Model model, Principal principal) throws Exception {
+	
 		if(bindingResult.hasErrors()) {
 			return "/campsite/campsite-add";
 		}
 		
-		campsiteService.saveCampsite(campsiteDto, principal.getName(), campsiteEnvironment, campsiteFacilitie, campsiteTheme, campsiteImgFiles);
+		Member member = memberService.findByMemberId(principal.getName()).get();
+		
+		campsiteService.saveCampsite(campsiteDto, member, campsiteImgFiles);
 		
 		return "redirect:/";
 	}
@@ -156,46 +156,46 @@ public class CampsiteController {
 		return "redirect:/";
 	}
 	
-	@ModelAttribute("campsiteEnvironments")
-	public List<String> campsiteEnvironments() {
-		List<String> campsiteEnvironments = new ArrayList<>();
-		campsiteEnvironments.add("산/숲");
-		campsiteEnvironments.add("바다");
-		campsiteEnvironments.add("계곡");
-		campsiteEnvironments.add("강");
-		campsiteEnvironments.add("도심");
-		campsiteEnvironments.add("섬");
-		return campsiteEnvironments;
+	@ModelAttribute("environments")
+	public Set<String> environments() {
+		Set<String> environments = new HashSet<>();
+		environments.add("산/숲");
+		environments.add("바다");
+		environments.add("계곡");
+		environments.add("강");
+		environments.add("도심");
+		environments.add("섬");
+		return environments;
 	}
 	
-	@ModelAttribute("campsiteThemes")
-	public List<String> campsiteThemes() {
-		List<String> campsiteThemes = new ArrayList<>();
-		campsiteThemes.add("캠핑");
-		campsiteThemes.add("글램핑");
-		campsiteThemes.add("카라반");
-		campsiteThemes.add("차박");
-		campsiteThemes.add("반려동물");
-		campsiteThemes.add("키즈");
-		campsiteThemes.add("가족");
-		campsiteThemes.add("연인");
-		return campsiteThemes;
+	@ModelAttribute("themes")
+	public Set<String> themes() {
+		Set<String> themes = new HashSet<>();
+		themes.add("캠핑");
+		themes.add("글램핑");
+		themes.add("카라반");
+		themes.add("차박");
+		themes.add("반려동물");
+		themes.add("키즈");
+		themes.add("가족");
+		themes.add("연인");
+		return themes;
 	}
 	
-	@ModelAttribute("campsiteFacilities")
-	public List<String> campsiteFacilities() {
-		List<String> campsiteFacilities = new ArrayList<>();
-		campsiteFacilities.add("화장실");
-		campsiteFacilities.add("샤워실");
-		campsiteFacilities.add("바베큐장");
-		campsiteFacilities.add("개별 주차");
-		campsiteFacilities.add("온난방기");
-		campsiteFacilities.add("매점");
-		campsiteFacilities.add("수영장");
-		campsiteFacilities.add("장비대여");
-		campsiteFacilities.add("식기류");
-		campsiteFacilities.add("침구류");
-		return campsiteFacilities;
+	@ModelAttribute("facilities")
+	public Set<String> facilities() {
+		Set<String> facilities = new HashSet<>();
+		facilities.add("화장실");
+		facilities.add("샤워실");
+		facilities.add("바베큐장");
+		facilities.add("개별 주차");
+		facilities.add("온난방기");
+		facilities.add("매점");
+		facilities.add("수영장");
+		facilities.add("장비대여");
+		facilities.add("식기류");
+		facilities.add("침구류");
+		return facilities;
 	}
 	
 }

@@ -1,8 +1,13 @@
 package himedia.campus.entity.campsite;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -42,9 +47,20 @@ public class Campsite {
 	private Integer campsiteCheckin;
 	private Integer campsiteCheckout;
 	
-	private String campsiteEnvironment;
-	private String campsiteFacilitie;
-	private String campsiteTheme;
+	@ElementCollection(targetClass=String.class)
+	@CollectionTable(name = "themes", joinColumns = @JoinColumn(name = "campsite_id"))
+	@Column(name = "themes")
+	private Set<String> themes = new HashSet<>();
+	
+	@ElementCollection(targetClass=String.class)
+	@CollectionTable(name = "environments", joinColumns = @JoinColumn(name = "campsite_id"))
+	@Column(name = "environments")
+	private Set<String> environments = new HashSet<>();
+	
+	@ElementCollection(targetClass=String.class)
+	@CollectionTable(name = "facilities", joinColumns = @JoinColumn(name = "campsite_id"))
+	@Column(name = "facilities")
+	private Set<String> facilities = new HashSet<>();
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_no")
@@ -73,9 +89,9 @@ public class Campsite {
 		this.campsiteMax =  campsiteDto.getCampsiteMax();
 		this.campsiteCheckin =  campsiteDto.getCampsiteCheckin();
 		this.campsiteCheckout =  campsiteDto.getCampsiteCheckout();
-		this.campsiteEnvironment =  campsiteDto.getCampsiteEnvironment();
-		this.campsiteFacilitie =  campsiteDto.getCampsiteFacilitie();
-		this.campsiteTheme =  campsiteDto.getCampsiteTheme();
+		this.themes =  campsiteDto.getThemes();
+		this.environments =  campsiteDto.getEnvironments();
+		this.facilities =  campsiteDto.getFacilities();
 	}
 	
 	private static ModelMapper modelMapper = new ModelMapper();

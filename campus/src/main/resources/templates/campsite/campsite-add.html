@@ -70,39 +70,39 @@
 				<div class="input-group input-group-sm row">
 					<span class="input-group-text col-3 fw-bold">환경</span>
 					<div class="form-control d-flex flex-row flex-wrap">
-						<div th:each="campsiteEnvironment: ${campsiteEnvironments}" class="mx-2">
-							<label th:for="${#ids.next('campsiteEnvironment')}"
-								th:text="${campsiteEnvironment}"></label> 
+						<div th:each="environment: ${environments}" class="mx-2">
+							<label th:for="${#ids.next('environments')}"
+								th:text="${environment}"></label> 
 							<input type="checkbox" 
-								th:field="*{campsiteEnvironment}" th:value="${campsiteEnvironment}">
+								th:field="*{environments}" th:value="${environment}">
 						</div>
 					</div>
-					<p th:errors="*{campsiteEnvironment}" class="text-danger"></p>
+					<p th:errors="*{environments}" class="text-danger"></p>
 				</div>
 				<div class="input-group input-group-sm row">
 					<span class="input-group-text col-3 fw-bold">편의시설</span>
 					<div class="form-control d-flex flex-row flex-wrap">
-						<div th:each="campsiteFacilitie: ${campsiteFacilities}" class="mx-2">
-							<label th:for="${#ids.next('campsiteFacilitie')}"
-								th:text="${campsiteFacilitie}"></label>
+						<div th:each="facilitie: ${facilities}" class="mx-2">
+							<label th:for="${#ids.next('facilities')}"
+								th:text="${facilitie}"></label>
 							<input type="checkbox"
-								th:field="*{campsiteFacilitie}" th:value="${campsiteFacilitie}">
+								th:field="*{facilities}" th:value="${facilitie}">
 						</div>
 					</div>
-					<p th:errors="*{campsiteFacilitie}" class="text-danger"></p>
+					<p th:errors="*{facilities}" class="text-danger"></p>
 				</div>
 				<div class="input-group input-group-sm row">
 					<span class="input-group-text col-3 fw-bold"
 						id="inputGroup-sizing-sm">테마</span>
 					<div class="form-control d-flex flex-row flex-wrap">
-						<div th:each="campsiteTheme: ${campsiteThemes}" class="mx-2">
-							<label th:for="${#ids.next('campsiteTheme')}"
-								th:text="${campsiteTheme}"></label> 
+						<div th:each="theme: ${themes}" class="mx-2">
+							<label th:for="${#ids.next('themes')}"
+								th:text="${theme}"></label> 
 							<input type="checkbox"
-								th:field="*{campsiteTheme}" th:value="${campsiteTheme}">
+								th:field="*{themes}" th:value="${theme}">
 						</div>
 					</div>
-					<p th:errors="*{campsiteTheme}" class="text-danger"></p>
+					<p th:errors="*{themes}" class="text-danger"></p>
 				</div>
 
 				<div class="input-group row">
