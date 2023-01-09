@@ -50,8 +50,4 @@ public class ReservationService {
 		reservation.updateReservationStatus(reservationStatus);
 	}
 
-//	public void deleteReservation(Reservation reservation) {
-//		reservationRepository.delete(reservation);
-//	}
-	
 }

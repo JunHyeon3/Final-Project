@@ -44,15 +44,12 @@ public class CampsiteController {
 	private final CampsiteImgService campsiteImgService;
 	private final FavoriteService favoriteService;
 	private final MemberService memberService;
-	private final CampsiteRepository campsiteRepository;
 
 	@GetMapping("/campsites")
-	public String campsiteList(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, 
+	public String campsiteList(@PageableDefault(sort="campsite_Id", direction = Sort.Direction.DESC) Pageable pageable, 
 								@RequestParam(required = false) String searchEnvironment,
 								@RequestParam(required = false) String searchTheme,
 								Model model, Principal principal) {
-		log.info("환경 : " + searchEnvironment);
-		log.info("테마 : " + searchTheme);
 		Page<Campsite> campsiteList = null;
 		if(searchEnvironment == null && searchTheme == null) {
 			campsiteList = campsiteService.pageList(pageable);
@@ -202,10 +199,4 @@ public class CampsiteController {
 		facilities.add("침구류");
 		return facilities;
 	}
-	
-//	@GetMapping("/ss")
-//	@ResponseBody
-//	public Set<String> ff() {
-//		return campsiteRepository.fff();
-//	}
 }

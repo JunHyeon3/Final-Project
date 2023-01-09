@@ -6,10 +6,14 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import himedia.campus.entity.member.MemberRole;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDto {
 	
 	@NotNull(message = "사용자/관리자 중 하나를 선택해주세요.")

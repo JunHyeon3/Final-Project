@@ -8,12 +8,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import himedia.campus.entity.campsite.Campsite;
+import himedia.campus.entity.review.Review;
 
 public interface CampsiteRepository extends JpaRepository<Campsite, Long> {
 
 	Optional<Campsite> findByCampsiteManager(String campsiteManager);
 
 	Optional<Campsite> findByCampsiteId(Long campsiteId);
+	
+	@Query(value = "SELECT * FROM CAMPSITE", nativeQuery = true)	
+	Page<Campsite> findAll(Pageable pageable);
 	
 	@Query(value = "SELECT * FROM CAMPSITE C WHERE "
 			+ "C.CAMPSITE_ID IN (SELECT CAMPSITE_ID FROM THEMES WHERE THEMES LIKE %?%) "

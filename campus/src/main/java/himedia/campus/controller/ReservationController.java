@@ -39,8 +39,8 @@ public class ReservationController {
 	}
 	
 	@PostMapping("/reservation/{campsiteId}")
-	public String reservationNew(@Validated ReservationDto reservationDto, BindingResult bindingResult, @PathVariable Long campsiteId, Principal principal,Model model) {
-		log.info("@@@@ : " + reservationDto.getCheckinDate());
+	public String reservationNew(@Validated ReservationDto reservationDto, BindingResult bindingResult, 
+								@PathVariable Long campsiteId, Principal principal, Model model) {
 		if(bindingResult.hasErrors()) {
 			Campsite reservationCampsite = campsiteService.findByCampsiteId(campsiteId).get();
 			model.addAttribute("reservationCampsite", reservationCampsite);

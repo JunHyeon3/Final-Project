@@ -75,12 +75,8 @@ public class CampsiteService {
 		return campsiteRepository.findAll(pageable);
 	}
 
-	public Page<Campsite> findByThemeAndEnvironment(String searchTheme,
-			String searchEnvironment,
-			Pageable pageable) {
-		return campsiteRepository.findByThemeAndEnvironment(searchTheme,
-				searchEnvironment, 
-				pageable);
+	public Page<Campsite> findByThemeAndEnvironment(String searchTheme, String searchEnvironment, Pageable pageable) {
+		return campsiteRepository.findByThemeAndEnvironment(searchTheme, searchEnvironment, pageable);
 	}
 
 }

@@ -20,13 +20,17 @@ import org.modelmapper.ModelMapper;
 
 import himedia.campus.dto.review.ReviewDto;
 import himedia.campus.entity.member.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @DynamicInsert
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

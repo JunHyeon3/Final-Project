@@ -3,18 +3,21 @@ package himedia.campus.dto.campsite;
 import java.util.Set;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.modelmapper.ModelMapper;
 
 import himedia.campus.entity.campsite.Campsite;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CampsiteDto {
 
 	private Long campsiteId;

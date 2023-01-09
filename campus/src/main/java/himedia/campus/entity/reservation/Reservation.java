@@ -15,12 +15,16 @@ import javax.persistence.ManyToOne;
 
 import himedia.campus.entity.campsite.Campsite;
 import himedia.campus.entity.member.Member;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Reservation {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +48,5 @@ public class Reservation {
 	public void updateReservationStatus(ReservationStatus reservationStatus) {
 		this.reservationStatus = reservationStatus;
 	}
-	
-	
+		
 }

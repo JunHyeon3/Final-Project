@@ -10,11 +10,15 @@ import org.modelmapper.ModelMapper;
 
 import himedia.campus.entity.reservation.Reservation;
 import himedia.campus.entity.reservation.ReservationStatus;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReservationDto {
 	
 	private Long reservationId;

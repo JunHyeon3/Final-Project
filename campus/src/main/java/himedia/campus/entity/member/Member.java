@@ -21,10 +21,16 @@ import himedia.campus.entity.campsite.Campsite;
 import himedia.campus.entity.campsite.FavoriteCampsite;
 import himedia.campus.entity.reservation.Reservation;
 import himedia.campus.entity.review.Review;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity @Setter @Getter
+@Entity 
+@Setter 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

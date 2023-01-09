@@ -26,14 +26,6 @@ public class FavoriteService {
 		favoriteCampsite.setMember(member);
 		favoriteCampsite.setCampsite(campsite);
 		favoritRepository.save(favoriteCampsite);
-		
-//		FavoriteCampsite favoriteCampsite = findByMemberNo(member.getMemberNo());
-//		if(favoriteCampsite == null) {
-//			favoriteCampsite = FavoriteCampsite.createFavoriteCampsite(member);
-//			favoritRepository.save(favoriteCampsite);
-//		}
-//		
-//		favoriteCampsite.setCampsite(campsite);
 	}
 
 	public void deleteFavoriteCampsite(Long memberNo, Long campsiteId) {
@@ -44,9 +36,5 @@ public class FavoriteService {
 	public Optional<FavoriteCampsite> findByMemberNoAndCampsiteId(Long memberNo, Long campsiteId) {
 		return favoritRepository.findByMember_MemberNoAndCampsite_CampsiteId(memberNo, campsiteId);
 	}
-
-	//	public List<FavoriteCampsite> findByMemberNo(Long memberNo) {
-//		return favoritRepository.findByMember_MemberNo(memberNo);
-//	}
 
 }

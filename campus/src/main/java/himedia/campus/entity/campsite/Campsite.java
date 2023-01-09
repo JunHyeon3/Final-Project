@@ -22,6 +22,7 @@ import org.modelmapper.ModelMapper;
 import himedia.campus.dto.campsite.CampsiteDto;
 import himedia.campus.entity.member.Member;
 import himedia.campus.entity.reservation.Reservation;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Campsite {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
