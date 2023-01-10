@@ -31,7 +31,8 @@ public class MemberDto {
 	
 	@NotEmpty(message = "전화번호는 필수 입력 항목입니다.")
 	private String memberPhone;
-	
+
+	@NotNull(message="나이는 필수 입력 항목입니다.")
 	private Integer memberAge;
 	
 }

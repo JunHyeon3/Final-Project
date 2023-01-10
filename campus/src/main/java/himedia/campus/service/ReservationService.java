@@ -26,7 +26,7 @@ public class ReservationService {
 	private final CampsiteRepository campsiteRepository;
 	private final MemberRepository memberRepository;
 	
-	public Long saveReservation(ReservationDto reservationDto, Long campsiteId, String memberId) {
+	public Reservation saveReservation(ReservationDto reservationDto, Long campsiteId, String memberId) {
 		reservationDto.setReservationDate(LocalDateTime.now());
 		reservationDto.setReservationStatus(ReservationStatus.WAITING);
 		Reservation reservation = reservationDto.toEntity();
@@ -38,7 +38,7 @@ public class ReservationService {
 		
 		reservationRepository.save(reservation);
 		
-		return reservation.getReservationId();
+		return reservation;
 	}
 	
 	public Optional<Reservation> findByReservationId(Long reservationId) {

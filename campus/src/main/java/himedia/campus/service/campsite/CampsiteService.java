@@ -26,7 +26,7 @@ public class CampsiteService {
 	private final CampsiteRepository campsiteRepository;
 	private final CampsiteImgService campsiteImgService;
 
-	public Long saveCampsite(CampsiteDto campsiteDto, Member member, List<MultipartFile> campsiteImgFiles)
+	public Campsite saveCampsite(CampsiteDto campsiteDto, Member member, List<MultipartFile> campsiteImgFiles)
 			throws Exception {
 		campsiteDto.setCampsiteManager(member.getMemberName());
 		Campsite campsite = campsiteDto.toEntity();
@@ -42,7 +42,7 @@ public class CampsiteService {
 			}
 		}
 
-		return campsite.getCampsiteId();
+		return campsite;
 	}
 
 	public Long updateCampsite(CampsiteDto campsiteDto, List<MultipartFile> campsiteImgFiles) throws Exception {

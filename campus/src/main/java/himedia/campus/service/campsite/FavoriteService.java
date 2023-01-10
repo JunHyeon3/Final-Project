@@ -1,6 +1,5 @@
 package himedia.campus.service.campsite;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -9,26 +8,34 @@ import org.springframework.transaction.annotation.Transactional;
 import himedia.campus.entity.campsite.Campsite;
 import himedia.campus.entity.campsite.FavoriteCampsite;
 import himedia.campus.entity.member.Member;
+import himedia.campus.repository.MemberRepository;
+import himedia.campus.repository.campsite.CampsiteRepository;
 import himedia.campus.repository.campsite.FavoriteRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Slf4j
 public class FavoriteService {
 
 	private final FavoriteRepository favoritRepository;
+	private final MemberRepository memberRepository;
+	private final CampsiteRepository campsiteRepository;
 	
-	public void addFavoriteCampsite(Member member, Campsite campsite) {
+	public FavoriteCampsite addFavoriteCampsite(String memberId, Long campsiteId) {
+		Member member = memberRepository.findByMemberId(memberId).get();
+		Campsite campsite = campsiteRepository.findByCampsiteId(campsiteId).get();
+		
 		FavoriteCampsite favoriteCampsite = new FavoriteCampsite();
 		favoriteCampsite.setMember(member);
 		favoriteCampsite.setCampsite(campsite);
-		favoritRepository.save(favoriteCampsite);
+		
+		return favoritRepository.save(favoriteCampsite);
 	}
 
-	public void deleteFavoriteCampsite(Long memberNo, Long campsiteId) {
+	public void deleteFavoriteCampsite(String memberId, Long campsiteId) {
+		Long memberNo = memberRepository.findByMemberId(memberId).get().getMemberNo();
+		
 		FavoriteCampsite favoriteCampsite = findByMemberNoAndCampsiteId(memberNo, campsiteId).get();
 		favoritRepository.delete(favoriteCampsite);
 	}

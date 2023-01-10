@@ -38,6 +38,19 @@
 	</div>
 
 	<div id="content" class="col">
+		<h2 th:if="${#strings.isEmpty(searchEnv)} and ${#strings.isEmpty(searchTheme)}" 
+			th:text="|전체 조회 결과|" 
+			class="fs-3 border-bottom border-success text-center p-3"></h2>
+		<h2 th:if="${!#strings.isEmpty(searchEnv)} and ${#strings.isEmpty(searchTheme)}" 
+			th:text="|환경 : ${searchEnv} 검색 결과|" 
+			class="fs-3 border-bottom border-success text-center p-3"></h2>
+		<h2 th:if="${#strings.isEmpty(searchEnv)} and ${!#strings.isEmpty(searchTheme)}" 
+			th:text="|테마 : ${searchTheme} 검색 결과|" 
+			class="fs-3 border-bottom border-success text-center p-3"></h2>
+		<h2 th:if="${!#strings.isEmpty(searchEnv)} and !${#strings.isEmpty(searchTheme)}" 
+			th:text="|환경 : ${searchEnv} & 테마 : ${searchTheme} 검색 결과|" 
+			class="fs-3 border-bottom border-success text-center p-3"></h2>
+			
 		<div th:each="campsite: ${campsites}"
 			class="campsites row my-5 p-2 position-relative border-bottom border-success">
 			<div class="col-4 text-center">
@@ -86,6 +99,14 @@
 					<li class="row">
 						<div class="col-4 fw-bold">편의시설</div>
 						<div th:text="${campsite.facilities}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-4 fw-bold">환경</div>
+						<div th:text="${campsite.environments}" class="col"></div>
+					</li>
+					<li class="row">
+						<div class="col-4 fw-bold">테마</div>
+						<div th:text="${campsite.themes}" class="col"></div>
 					</li>
 				</ul>
 			</div>

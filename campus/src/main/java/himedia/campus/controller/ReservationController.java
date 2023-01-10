@@ -27,15 +27,14 @@ public class ReservationController {
 	
 	@GetMapping("/reservation/{campsiteId}")
 	public String reservationForm(@PathVariable Long campsiteId, Model model, Principal principal) {
-		if(principal != null) {
-			Campsite reservationCampsite = campsiteService.findByCampsiteId(campsiteId).get();
-			model.addAttribute("reservationCampsite", reservationCampsite);
-			model.addAttribute("reservationDto", new ReservationDto());
-			return "reservation/reservation";
+		if(principal == null) {
+			return "member/login";
 		}
-		else {
-			return "redirect:/member/login";
-		}
+		
+		Campsite reservationCampsite = campsiteService.findByCampsiteId(campsiteId).get();
+		model.addAttribute("reservationCampsite", reservationCampsite);
+		model.addAttribute("reservationDto", new ReservationDto());
+		return "reservation/reservation";
 	}
 	
 	@PostMapping("/reservation/{campsiteId}")

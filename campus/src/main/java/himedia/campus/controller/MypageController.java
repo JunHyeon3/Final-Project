@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import himedia.campus.dto.MemberDto;
@@ -19,7 +18,6 @@ import himedia.campus.entity.reservation.Reservation;
 import himedia.campus.entity.reservation.ReservationStatus;
 import himedia.campus.service.MemberService;
 import himedia.campus.service.ReservationService;
-import himedia.campus.service.campsite.CampsiteService;
 import himedia.campus.service.campsite.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +29,6 @@ public class MypageController {
 	
 	private final MemberService memberService;
 	private final ReservationService reservationService;
-	private final CampsiteService campsiteService;
 	private final FavoriteService favoriteService;
 	
 	@GetMapping("/my-page")
@@ -48,6 +45,10 @@ public class MypageController {
 	
 	@GetMapping("/my-page/put/my-info")
 	public String myInfoEditForm(Principal principal, Model model) {
+		if(principal == null) {
+			return "member/login";
+		}
+		
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		model.addAttribute("memberDto", Member.toDto(member));
 		return "mypage/my-info-edit";
@@ -64,6 +65,10 @@ public class MypageController {
 
 	@DeleteMapping("/my-page/delete/my-info")
 	public String myInfoDelete(Principal principal) {
+		if(principal == null) {
+			return "member/login";
+		}
+		
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		memberService.deleteMember(member);
 		return "redirect:/member/logout";
@@ -71,6 +76,10 @@ public class MypageController {
 	
 	@GetMapping(value = {"/my-page/reservation", "/admin/my-page/reservation"})
 	public String userReservationList(Principal principal, Model model) {
+		if(principal == null) {
+			return "member/login";
+		}
+		
 		List<Reservation> reservations = new ArrayList<>();
 
 		Member member = memberService.findByMemberId(principal.getName()).get();
@@ -113,6 +122,10 @@ public class MypageController {
 	
 	@GetMapping("/my-page/favorite")
 	public String favoriteList(Principal principal, Model model) {
+		if(principal == null) {
+			return "member/login";
+		}
+		
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		List<Campsite> campsites = member.getFavoriteCampsite().stream().map(t -> t.getCampsite()).toList();
 		model.addAttribute("favoriteCampsites", campsites);
@@ -121,9 +134,11 @@ public class MypageController {
 	
 	@DeleteMapping("/my-page/favorite/{campsiteId}")
 	public String favoriteDelete(@PathVariable Long campsiteId, Principal principal) {
-		Member member = memberService.findByMemberId(principal.getName()).get();
+		if(principal == null) {
+			return "member/login";
+		}
 		
-		favoriteService.deleteFavoriteCampsite(member.getMemberNo(), campsiteId);
+		favoriteService.deleteFavoriteCampsite(principal.getName(), campsiteId);
 		return "redirect:/my-page/favorite";
 	}
 	

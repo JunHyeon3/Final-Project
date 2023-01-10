@@ -77,19 +77,19 @@ public class ReviewController {
 		List<String> reviewImgPaths = reviewImgService.findByReviewId(reviewId).stream().map(t-> t.getReviewImgPath()).toList();
 		model.addAttribute("reviewImgPaths", reviewImgPaths);
 		
+		reviewService.updateViews(review, review.getReviewViews()+1);
+		
 		if(principal != null) {
 			boolean isWriter = memberService.findByMemberId(principal.getName()).get().getReviews().contains(review);
 			model.addAttribute("isWriter", isWriter);
 		}
-		
-		reviewService.updateViews(review, review.getReviewViews()+1);
 		return "review/review";
 	}
 	
 	@GetMapping("/reviews/post")
 	public String reviewAddForm(Model model, Principal principal) {
 		if (principal == null) {
-			return "redirect:/member/login";
+			return "member/login";
 		}
 		Member member = memberService.findByMemberId(principal.getName()).get();
 		

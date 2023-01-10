@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +21,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import himedia.campus.dto.campsite.CampsiteDto;
 import himedia.campus.entity.campsite.Campsite;
 import himedia.campus.entity.campsite.CampsiteImg;
 import himedia.campus.entity.member.Member;
-import himedia.campus.repository.campsite.CampsiteRepository;
 import himedia.campus.service.MemberService;
 import himedia.campus.service.campsite.CampsiteImgService;
 import himedia.campus.service.campsite.CampsiteService;
@@ -46,7 +45,7 @@ public class CampsiteController {
 	private final MemberService memberService;
 
 	@GetMapping("/campsites")
-	public String campsiteList(@PageableDefault(sort="campsite_Id", direction = Sort.Direction.DESC) Pageable pageable, 
+	public String campsiteList(@PageableDefault(size=5, sort="campsite_Id", direction = Sort.Direction.DESC) Pageable pageable, 
 								@RequestParam(required = false) String searchEnvironment,
 								@RequestParam(required = false) String searchTheme,
 								Model model, Principal principal) {
@@ -97,18 +96,13 @@ public class CampsiteController {
 	
 	@PostMapping("/campsites/favorite/{campsiteId}")
 	public String favoriteAdd(@PathVariable Long campsiteId, Principal principal) {
-		Member member = memberService.findByMemberId(principal.getName()).get();
-		Campsite campsite = campsiteService.findByCampsiteId(campsiteId).get();
-		
-		favoriteService.addFavoriteCampsite(member, campsite);
+		favoriteService.addFavoriteCampsite(principal.getName(), campsiteId);
 		return "redirect:/campsites";
 	}
 	
 	@DeleteMapping("/campsites/favorite/{campsiteId}")
 	public String favoriteDelete(@PathVariable Long campsiteId, Principal principal) {
-		Member member = memberService.findByMemberId(principal.getName()).get();
-		
-		favoriteService.deleteFavoriteCampsite(member.getMemberNo(), campsiteId);
+		favoriteService.deleteFavoriteCampsite(principal.getName(), campsiteId);
 		return "redirect:/campsites";
 	}
 	
